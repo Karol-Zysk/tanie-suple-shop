@@ -1,12 +1,17 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import Layout from "../components/Layout";
-import { products } from "../utils/data";
+import { ProductItem } from "../components/ProductItem";
+import data from "../utils/data";
 
 const Home: NextPage = () => {
-  console.log(products);
 
-  return <Layout title="Strona Główna">HomePage</Layout>;
+  return <Layout title="Strona Główna">
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-5">
+        {data.products.map((product) => (
+          <ProductItem product={product} key={product.slug}></ProductItem>
+        ))}
+      </div>
+    </Layout>;
 };
 
 export default Home;

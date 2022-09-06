@@ -1,7 +1,8 @@
 export type ProductsType = {
-  products: {
+  product: {
     id: number;
     name: string;
+    slug: string;
     category: string;
     image: string;
     price: number;
@@ -11,5 +12,5 @@ export type ProductsType = {
     flavours: string[];
     countInStock: number;
     description: string;
-  }[];
+  };
 };
