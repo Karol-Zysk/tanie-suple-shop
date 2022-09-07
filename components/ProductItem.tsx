@@ -21,7 +21,7 @@ export const ProductItem: React.FC<ProductsType> = ({ product }) => {
           <h2 className="text-lg">{product.name}</h2>
         </Link>
         <p>{product.price}zł</p>
-        <button className="primary-button" type="button">
+        <button  className="primary-button" type="button">
           do koszyka
         </button>
       </div>

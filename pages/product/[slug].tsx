@@ -59,8 +59,8 @@ export default function ProductScreen() {
             </li>
             <li>Opis: {product.description}</li>
           </ul>
-          <div>
-            <h1 className="mt-4">{formula}</h1>
+          <div className="mt-4">
+            <h1>{formula}</h1>
           </div>
         </div>
         <div>

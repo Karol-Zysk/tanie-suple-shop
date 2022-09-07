@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import React, { ReactNode, useContext } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
 
 interface LayoutProps {
@@ -11,6 +11,12 @@ interface LayoutProps {
 const Layout = ({ children, title }: LayoutProps) => {
   const { state } = useContext(Store);
   const { cart } = state;
+
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+  useEffect(() => {
+    setCartItemsCount(cart.cartItems.reduce((a:number, c: { quantity: number; })  => a + c.quantity, 0)) ;
+    
+  }, [cart.cartItems, cartItemsCount]);
   
   return (
     <>
@@ -27,16 +33,14 @@ const Layout = ({ children, title }: LayoutProps) => {
               <a className="text-lg font-bold">TanieSuple</a>
             </Link>
             <div>
-              <Link href="/cart">
+            <Link href="/cart">
                 <a className="p-2">
-                  Koszyk
-                  <span className="px-2 py-1 ml-1 text-xs font-bold text-white bg-gray-600 rounded-full">
-                  {cart.cartItems.length > 0 && (
+                  Cart
+                  {cartItemsCount > 0 && (
                     <span className="px-2 py-1 ml-1 text-xs font-bold text-white bg-red-600 rounded-full">
-                      {cart.cartItems.reduce((a: number, c: { quantity: number; }) => a + c.quantity, 0)}
+                      {cartItemsCount}
                     </span>
                   )}
-                  </span>
                 </a>
               </Link>
 

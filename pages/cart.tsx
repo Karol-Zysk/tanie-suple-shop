@@ -6,8 +6,9 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import { ProductType } from "../types";
+import dynamic from 'next/dynamic';
 
-export default function CartScreen() {
+function CartScreen() {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const {
@@ -22,7 +23,7 @@ export default function CartScreen() {
     const quantity = Number(qty);
     dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
   };
-  console.log(cartItems);
+  
   return (
     <Layout title="Shopping Cart">
       <h1 className="mb-4 text-xl">Koszyk</h1>
@@ -96,10 +97,14 @@ export default function CartScreen() {
               <li>
                 <div className="pb-3 text-xl">
                   Suma(
-                  {cartItems.reduce((a: any, c: any) => a + c.quantity, 0) +
+                  {cartItems.reduce(
+                    (a: number, c: { quantity: number }) => a + c.quantity,
+                    0
+                  ) +
                     "): " +
                     cartItems.reduce(
-                      (a: any, c: any) => a + c.quantity * c.price,
+                      (a: number, c: { quantity: number; price: number }) =>
+                        a + c.quantity * c.price,
                       0
                     )}
                   zł
@@ -120,3 +125,5 @@ export default function CartScreen() {
     </Layout>
   );
 }
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
