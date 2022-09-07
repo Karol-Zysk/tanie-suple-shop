@@ -8,6 +8,7 @@ import { Store } from "../../utils/Store";
 
 export default function ProductScreen() {
   const { state, dispatch } = useContext(Store);
+  const router = useRouter();
   const { query } = useRouter();
   const { slug } = query;
   const product = data.products.find((x) => x.slug === slug);
@@ -22,12 +23,15 @@ export default function ProductScreen() {
     const quantity: number = existItem ? existItem.quantity + 1 : 1;
 
     if (product.countInStock < quantity) {
-      alert("Sorry. Product is out of stock");
+      alert("Przepraszamy. W magazynie nie ma więcej produktów");
       return;
     }
 
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+    router.push("/cart");
   };
+
+  const formula = data.formula;
   return (
     <Layout title={product.name}>
       <div className="py-2">
@@ -55,6 +59,9 @@ export default function ProductScreen() {
             </li>
             <li>Opis: {product.description}</li>
           </ul>
+          <div>
+            <h1 className="mt-4">{formula}</h1>
+          </div>
         </div>
         <div>
           <div className="p-5 card">

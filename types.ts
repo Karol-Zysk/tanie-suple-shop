@@ -29,6 +29,7 @@ export type ProductType = {
   flavours: string[];
   countInStock: number;
   description: string;
+  quantity?: number;
 };
 
 export type ContextProviderType = {
