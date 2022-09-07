@@ -1,4 +1,37 @@
+import bcrypt from "bcryptjs";
+
+export const userData = {
+  users: [
+    {
+      name: "John",
+      email: "admin@example.com",
+      password: bcrypt.hashSync("123456"),
+      isAdmin: true,
+    },
+    {
+      name: "Jane",
+      email: "user@example.com",
+      password: bcrypt.hashSync("123456"),
+      isAdmin: false,
+    },
+  ],
+};
+
 const data = {
+  users: [
+    {
+      name: "John",
+      email: "admin@example.com",
+      password: bcrypt.hashSync("123456"),
+      isAdmin: true,
+    },
+    {
+      name: "Jane",
+      email: "user@example.com",
+      password: bcrypt.hashSync("123456"),
+      isAdmin: false,
+    },
+  ],
   products: [
     {
       id: 1,
@@ -210,7 +243,8 @@ const data = {
       description: `Clenburexin jest opracowanym przez amerykańskie laboratorium Natures Value INC światowym bestsellerem przyśpieszającym "pożeranie" tkanki tłuszczowej. Preparat został przygotowany w celu wsparcia organizmu w walce z nadwagą i nadmiarem tkanki tłuszczowej, która to niestety przykrywa nasze pięknie umięśnione ciało. Chciałbyś pozbyć się "garnituru tłuszczowego" i odkryć ciężko wypracowane mięśnie?! Jeśli tak! To ten preparat został przygotowany właśnie dla Ciebie. Po kilkutygodniowym cyklu będziesz zaskoczony efektami. Twoje ciało zamieni się w prawdziwą skałę. Dzięki temu iż formuła Clenburexinu, została oparta na niezwykle silnych i skutecznych substancjach o działaniu: termogenicznym, lipotropowym oraz diuretycznym to z powodzeniem może być również używana jako skuteczny reduktor tłuszczu nie tylko dla osób aktywnych fizycznie, ale także dla ludzi prowadzą siedzący tryb życia i pracy.`,
     },
   ],
-  formula: "Przestrzegaj dawek zalecanych przez producenta i znajdujących się na ulotce. "
+  formula:
+    "Przestrzegaj dawek zalecanych przez producenta i znajdujących się na ulotce. ",
 };
 
 export default data;

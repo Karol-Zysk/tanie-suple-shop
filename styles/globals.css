@@ -24,3 +24,9 @@ a {
 .primary-button {
   @apply px-4 py-2 shadow outline-none rounded-xl bg-amber-300 hover:bg-amber-400 active:bg-amber-500;
 }
+
+input,
+select,
+textarea {
+  @apply p-2 border rounded outline-none ring-indigo-300 focus:ring;
+}

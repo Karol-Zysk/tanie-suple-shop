@@ -6,7 +6,7 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import { ProductType } from "../types";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 function CartScreen() {
   const router = useRouter();
@@ -23,7 +23,7 @@ function CartScreen() {
     const quantity = Number(qty);
     dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
   };
-  
+
   return (
     <Layout title="Shopping Cart">
       <h1 className="mb-4 text-xl">Koszyk</h1>
@@ -112,7 +112,7 @@ function CartScreen() {
               </li>
               <li>
                 <button
-                  onClick={() => router.push("/shipping")}
+                  onClick={() => router.push("login?redirect=/shipping")}
                   className="w-full primary-button"
                 >
                   Zamawiam
