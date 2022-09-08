@@ -1,5 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
 
@@ -9,15 +12,21 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, title }: LayoutProps) => {
+  const { status, data: session } = useSession();
+
   const { state } = useContext(Store);
   const { cart } = state;
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
-    setCartItemsCount(cart.cartItems.reduce((a:number, c: { quantity: number; })  => a + c.quantity, 0)) ;
-    
+    setCartItemsCount(
+      cart.cartItems.reduce(
+        (a: number, c: { quantity: number }) => a + c.quantity,
+        0
+      )
+    );
   }, [cart.cartItems, cartItemsCount]);
-  
+
   return (
     <>
       {" "}
@@ -29,11 +38,12 @@ const Layout = ({ children, title }: LayoutProps) => {
       <div className="flex flex-col justify-between min-h-screen ">
         <header>
           <nav className="flex items-center justify-between h-12 px-4 shadow-md">
+            <ToastContainer position="bottom-center" limit={1} />
             <Link href="/">
               <a className="text-lg font-bold">TanieSuple</a>
             </Link>
             <div>
-            <Link href="/cart">
+              <Link href="/cart">
                 <a className="p-2">
                   Cart
                   {cartItemsCount > 0 && (
@@ -44,9 +54,15 @@ const Layout = ({ children, title }: LayoutProps) => {
                 </a>
               </Link>
 
-              <Link href="/login">
-                <a className="p-2">Login</a>
-              </Link>
+              {status === "loading" ? (
+                "Loading"
+              ) : session?.user ? (
+                session.user.name
+              ) : (
+                <Link href="/login">
+                  <a className="p-2">Login</a>
+                </Link>
+              )}
             </div>
           </nav>
         </header>
