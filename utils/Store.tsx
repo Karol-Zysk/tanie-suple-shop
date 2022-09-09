@@ -7,11 +7,13 @@ export const Store = createContext<any | undefined>(undefined);
 const initialState = {
   cart: Cookies.get("cart") //@ts-ignore
     ? JSON.parse(Cookies.get("cart"))
-    : { cartItems: [] },
+    : { cartItems: [], shippingAddress: {} },
 };
 
 function reducer(
-  state: { cart: { cartItems: any[] } },
+  state: { cart: {
+    [x: string]: any; cartItems: any[] 
+} },
   action: { type: string; payload: ProductType }
 ) {
   switch (action.type) {
@@ -42,6 +44,17 @@ function reducer(
           cartItems: [],
           shippingAddress: { location: {} },
           paymentMethod: "",
+        },
+      };
+    case "SAVE_SHIPPING_ADDRESS":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: {
+            ...state.cart.shippingAddress,
+            ...action.payload,
+          },
         },
       };
     default:

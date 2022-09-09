@@ -36,6 +36,8 @@ const Layout = ({ children, title }: LayoutProps) => {
     signOut({ callbackUrl: "/login" });
   };
 
+  console.log(session);
+
   return (
     <>
       {" "}
@@ -54,7 +56,7 @@ const Layout = ({ children, title }: LayoutProps) => {
             <div>
               <Link href="/cart">
                 <a className="p-2">
-                  Cart
+                  Koszyk
                   {cartItemsCount > 0 && (
                     <span className="px-2 py-1 ml-1 text-xs font-bold text-white bg-red-600 rounded-full">
                       {cartItemsCount}
@@ -67,7 +69,6 @@ const Layout = ({ children, title }: LayoutProps) => {
                 "Loading"
               ) : session?.user ? (
                 <>
-                  
                   <Menu as="div" className="relative inline-block">
                     <Menu.Button className="text-blue-600">
                       {session.user.name}
@@ -75,7 +76,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                     <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white shadow-lg ">
                       <Menu.Item>
                         <DropdownLink className="dropdown-link" href="/profile">
-                          Profile
+                          Profil
                         </DropdownLink>
                       </Menu.Item>
                       <Menu.Item>
@@ -83,7 +84,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                           className="dropdown-link"
                           href="/order-history"
                         >
-                          Order History
+                          Historia Zamówień
                         </DropdownLink>
                       </Menu.Item>
                       <Menu.Item>

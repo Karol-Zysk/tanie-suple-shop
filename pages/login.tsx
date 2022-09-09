@@ -39,7 +39,8 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (session?.user) {
-      router.push("/");
+      //@ts-ignore
+      router.push(redirect || "/");
     }
   }, [router, session, redirect]);
 
