@@ -35,3 +35,7 @@ select,
 textarea {
   @apply p-2 border rounded outline-none ring-indigo-300 focus:ring;
 }
+
+.default-button {
+  @apply px-4 py-2 text-black bg-gray-100 rounded shadow outline-none hover:bg-gray-200 active:bg-gray-300;
+}

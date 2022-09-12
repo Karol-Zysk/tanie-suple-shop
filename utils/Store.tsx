@@ -11,9 +11,12 @@ const initialState = {
 };
 
 function reducer(
-  state: { cart: {
-    [x: string]: any; cartItems: any[] 
-} },
+  state: {
+    cart: {
+      [x: string]: any;
+      cartItems: any[];
+    };
+  },
   action: { type: string; payload: ProductType }
 ) {
   switch (action.type) {
@@ -55,6 +58,14 @@ function reducer(
             ...state.cart.shippingAddress,
             ...action.payload,
           },
+        },
+      };
+    case "SAVE_PAYMENT_METHOD":
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMethod: action.payload,
         },
       };
     default:
