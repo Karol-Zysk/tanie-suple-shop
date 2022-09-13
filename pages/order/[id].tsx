@@ -1,51 +1,95 @@
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
 import Layout from "../../components/Layout";
-import { DataBaseProductType } from "../../types";
+import { PayActionKind, DataBaseProductType } from "../../types";
 import { getError } from "../../utils/error";
+import {
+  OnApproveData,
+  OnApproveActions,
+  CreateOrderActions,
+  CreateOrderData,
+} from "@paypal/paypal-js/types";
 
-function reducer(state: any, action: { type: string; payload: string }) {
+interface PayAction {
+  type: PayActionKind;
+  payload: any;
+}
+
+function reducer(state: any, action: PayAction) {
   switch (action.type) {
-    case "FETCH_REQUEST":
+    case PayActionKind.FETCH_REQUEST:
       return { ...state, loading: true, error: "" };
-    case "FETCH_SUCCESS":
+    case PayActionKind.FETCH_SUCCESS:
       return { ...state, loading: false, order: action.payload, error: "" };
-    case "FETCH_FAIL":
+    case PayActionKind.FETCH_FAIL:
       return { ...state, loading: false, error: action.payload };
+    case PayActionKind.PAY_REQUEST:
+      return { ...state, loadingPay: true };
+    case PayActionKind.PAY_SUCCESS:
+      return { ...state, loadingPay: false, successPay: true };
+    case PayActionKind.PAY_FAIL:
+      return { ...state, loadingPay: false, errorPay: action.payload };
+    case PayActionKind.PAY_RESET:
+      return { ...state, loadingPay: false, successPay: false, errorPay: "" };
+
     default:
       state;
   }
 }
 function OrderScreen() {
   // order/:id
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
   const { query } = useRouter();
   const orderId = query.id;
 
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
-    loading: true,
-    order: {},
-    error: "",
-  });
+  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      order: {},
+      error: "",
+    });
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         dispatch({
-          type: "FETCH_REQUEST",
+          type: PayActionKind.FETCH_REQUEST,
           payload: "",
         });
         const { data } = await axios.get(`/api/orders/${orderId}`);
-        dispatch({ type: "FETCH_SUCCESS", payload: data });
+        dispatch({ type: PayActionKind.FETCH_SUCCESS, payload: data });
       } catch (err) {
-        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+        dispatch({ type: PayActionKind.FETCH_FAIL, payload: getError(err) });
       }
     };
-    if (!order._id || (order._id && order._id !== orderId)) {
+    if (!order._id || successPay || (order._id && order._id !== orderId)) {
       fetchOrder();
+      if (successPay) {
+        dispatch({
+          type: PayActionKind.PAY_RESET,
+          payload: undefined,
+        });
+      }
+    } else {
+      const loadPaypalScript = async () => {
+        const { data: clientId } = await axios.get("/api/keys/paypal");
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": clientId,
+            currency: "USD",
+          },
+        }); //@ts-ignore
+        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+      };
+      loadPaypalScript();
     }
-  }, [order, orderId]);
+  }, [order, orderId, paypalDispatch, successPay]);
   const {
     shippingAddress,
     paymentMethod,
@@ -60,18 +104,59 @@ function OrderScreen() {
     deliveredAt,
   } = order;
 
+  function createOrder(data: CreateOrderData, actions: CreateOrderActions) {
+    return actions.order
+
+      .create({
+        purchase_units: [
+          {
+            amount: { value: totalPrice },
+          },
+        ],
+      })
+      .then((orderID: any) => {
+        return orderID;
+      });
+  }
+
+  function onApprove(data: OnApproveData, actions: OnApproveActions) {
+    return (
+      actions.order &&
+      actions.order.capture().then(async function (details) {
+        try {
+          dispatch({
+            type: PayActionKind.PAY_REQUEST,
+            payload: undefined,
+          });
+          const { data } = await axios.put(
+            `/api/orders/${order._id}/pay`,
+            details
+          );
+          dispatch({ type: PayActionKind.PAY_SUCCESS, payload: data });
+          toast.success("Order is paid successgully");
+        } catch (err) {
+          dispatch({ type: PayActionKind.PAY_FAIL, payload: getError(err) });
+          toast.error(getError(err));
+        }
+      })
+    );
+  }
+  function onError(err: any) {
+    toast.error(getError(err));
+  }
+
   return (
-    <Layout title={`Order ${orderId}`}>
-      <h1 className="mb-4 text-xl">{`Order ${orderId}`}</h1>
+    <Layout title={`Zamówienie id ${orderId}`}>
+      <h1 className="mb-4 text-xl">{`zamówienie id ${orderId}`}</h1>
       {loading ? (
-        <div>Chwilkę..</div>
+        <div>Chwileczkę...</div>
       ) : error ? (
         <div className="alert-error">{error}</div>
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
             <div className="p-5 card">
-              <h2 className="mb-2 text-lg">Adres Wysyłki</h2>
+              <h2 className="mb-2 text-lg">Adres dostawy</h2>
               <div>
                 {shippingAddress.fullName}, {shippingAddress.address},{" "}
                 {shippingAddress.city}, {shippingAddress.postalCode},{" "}
@@ -87,7 +172,7 @@ function OrderScreen() {
             </div>
 
             <div className="p-5 card">
-              <h2 className="mb-2 text-lg">Metoda Płatności</h2>
+              <h2 className="mb-2 text-lg">Metoda płatności</h2>
               <div>{paymentMethod}</div>
               {isPaid ? (
                 <div className="alert-success">Opłacono {paidAt}</div>
@@ -97,7 +182,7 @@ function OrderScreen() {
             </div>
 
             <div className="p-5 overflow-x-auto card">
-              <h2 className="mb-2 text-lg">Zamówienie</h2>
+              <h2 className="mb-2 text-lg">Zamawiam</h2>
               <table className="min-w-full">
                 <thead className="border-b">
                   <tr>
@@ -127,9 +212,7 @@ function OrderScreen() {
                       <td className="p-5 text-right ">{item.quantity}</td>
                       <td className="p-5 text-right">${item.price}</td>
                       <td className="p-5 text-right">
-                        $
-                        {item.quantity !== undefined &&
-                          item.quantity * item.price}
+                        ${item.quantity && item.quantity * item.price}
                       </td>
                     </tr>
                   ))}
@@ -139,23 +222,23 @@ function OrderScreen() {
           </div>
           <div>
             <div className="p-5 card">
-              <h2 className="mb-2 text-lg">Podsumowanie Zamówienia</h2>
+              <h2 className="mb-2 text-lg">Podsumowanie</h2>
               <ul>
                 <li>
                   <div className="flex justify-between mb-2">
-                    <div>Produkty</div>
-                    <div>{itemsPrice}zł</div>
+                    <div>Items</div>
+                    <div>${itemsPrice}</div>
                   </div>
                 </li>{" "}
                 <li>
                   <div className="flex justify-between mb-2">
-                    <div>Podatek</div>
+                    <div>Vat</div>
                     <div>{taxPrice}zł</div>
                   </div>
                 </li>
                 <li>
                   <div className="flex justify-between mb-2">
-                    <div>Wysyłka</div>
+                    <div>Dostawa</div>
                     <div>{shippingPrice}zł</div>
                   </div>
                 </li>
@@ -165,6 +248,23 @@ function OrderScreen() {
                     <div>{totalPrice}zł</div>
                   </div>
                 </li>
+                {!isPaid && (
+                  <li>
+                    {isPending ? (
+                      <div>Loading...</div>
+                    ) : (
+                      <div className="w-full">
+                        <PayPalButtons
+                          key={"name"}
+                          createOrder={createOrder} 
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    )}
+                    {loadingPay && <div>Chwileczkę...</div>}
+                  </li>
+                )}
               </ul>
             </div>
           </div>

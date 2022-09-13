@@ -127,7 +127,9 @@ export default function PlaceOrderScreen() {
                       <td className="p-5 text-right ">{item.quantity}</td>
                       <td className="p-5 text-right">${item.price}</td>
                       <td className="p-5 text-right">
-                        ${item.quantity !== undefined && (item.quantity * item.price)}
+                        $
+                        {item.quantity !== undefined &&
+                          item.quantity * item.price}
                       </td>
                     </tr>
                   ))}
@@ -167,12 +169,12 @@ export default function PlaceOrderScreen() {
                   </div>
                 </li>
                 <li>
-                  <button
+                  <button 
                     disabled={loading}
                     onClick={placeOrderHandler}
-                    className="w-full primary-button"
+                    className="w-full font-semibold primary-button"
                   >
-                    {loading ? "Loading..." : "Place Order"}
+                    {loading ? "Loading..." : "Kupuję"}
                   </button>
                 </li>
               </ul>

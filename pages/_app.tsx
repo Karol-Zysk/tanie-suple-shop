@@ -3,11 +3,9 @@ import type { AppProps } from "next/app";
 import { StoreProvider } from "../utils/Store";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { NextPageContext } from "next";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-export interface MyPageContext extends NextPageContext {
-  auth: any;
-}
+
 
 function MyApp({ Component, pageProps: { session, pageProps } }: AppProps) {
   return (
@@ -15,14 +13,18 @@ function MyApp({ Component, pageProps: { session, pageProps } }: AppProps) {
       <StoreProvider>
         {
           //@ts-ignore
-          Component.auth ? (
-            <Auth>
+        }<PayPalScriptProvider deferLoading={true}>
+          {
+            //@ts-ignore
+            Component.auth ? (
+              <Auth>
+                <Component {...pageProps} />
+              </Auth>
+            ) : (
               <Component {...pageProps} />
-            </Auth>
-          ) : (
-            <Component {...pageProps} />
-          )
-        }
+            )
+          }
+        </PayPalScriptProvider>
       </StoreProvider>
     </SessionProvider>
   );
@@ -38,7 +40,6 @@ function Auth({ children }: any) {
       router.push("/unauthorized?message=login required");
     },
   });
-  console.log(status);
   if (status === "loading") {
     return <div>Loading...</div>;
   }

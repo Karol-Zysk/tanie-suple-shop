@@ -36,7 +36,6 @@ const Layout = ({ children, title }: LayoutProps) => {
     signOut({ callbackUrl: "/login" });
   };
 
-  console.log(session);
 
   return (
     <>

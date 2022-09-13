@@ -3,17 +3,17 @@ import { getSession } from "next-auth/react";
 import Order from "../../../models/Order";
 import db from "../../../utils/db";
 
-const handler = async (req:NextApiRequest , res:NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   if (!session) {
     return res.status(401).send("signin required");
   }
 
-  const { user }  = session;
+  const { user } = session;
   await db.connect();
   const newOrder = new Order({
-    ...req.body,//@ts-ignore
-    user: user?._id,
+    ...req.body, //@ts-ignore
+    user: user,
   });
 
   const order = await newOrder.save();
