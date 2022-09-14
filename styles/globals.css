@@ -19,7 +19,7 @@ a {
 }
 
 .dropdown-link {
-  @apply flex p-2 hover:bg-gray-200;
+  @apply z-50 flex p-2 hover:bg-gray-200;
 }
 
 .card {

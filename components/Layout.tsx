@@ -36,7 +36,6 @@ const Layout = ({ children, title }: LayoutProps) => {
     signOut({ callbackUrl: "/login" });
   };
 
-
   return (
     <>
       {" "}
@@ -68,7 +67,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                 "Loading"
               ) : session?.user ? (
                 <>
-                  <Menu as="div" className="relative inline-block">
+                  <Menu as="div" className="relative z-20 inline-block">
                     <Menu.Button className="text-blue-600">
                       {session.user.name}
                     </Menu.Button>
@@ -86,6 +85,16 @@ const Layout = ({ children, title }: LayoutProps) => {
                           Historia Zamówień
                         </DropdownLink>
                       </Menu.Item>
+                      {session.user.isAdmin && (
+                        <Menu.Item>
+                          <DropdownLink
+                            className="dropdown-link"
+                            href="/admin/dashboard"
+                          >
+                            Panel Admina
+                          </DropdownLink>
+                        </Menu.Item>
+                      )}
                       <Menu.Item>
                         <a
                           className="dropdown-link"
