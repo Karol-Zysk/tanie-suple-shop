@@ -10,39 +10,25 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user?.id) token._id = user._id;
-
+      if (user?._id) token._id = user._id;
+      if (user?.isAdmin) token.isAdmin = user.isAdmin;
       return token;
     },
-    async session({ session, token, user }) {
-      if (token?._id) user._id = token._id;
-      if (token?.isAdmin) user.isAdmin = token.isAdmin;
+    async session({ session, token }) {
+      if (token?._id) session.user._id = token._id;
+      if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
       return session;
     },
   },
-  secret: process.env.AUTH_SECRET,
   providers: [
     CredentialsProvider({
-      name: "Credentials",
-
-      credentials: {
-        email: {
-          label: "Email",
-          type: "text",
-          placeholder: "example@example.com",
-        },
-        password: { label: "Password", type: "password" },
-      },
       async authorize(credentials) {
         await db.connect();
         const user = await User.findOne({
-          email: credentials?.email,
+          email: credentials.email,
         });
         await db.disconnect();
-        if (
-          user &&
-          bcryptjs.compareSync(credentials!.password, user.password)
-        ) {
+        if (user && bcryptjs.compareSync(credentials.password, user.password)) {
           return {
             _id: user._id,
             name: user.name,

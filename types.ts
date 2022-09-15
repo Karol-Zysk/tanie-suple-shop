@@ -55,20 +55,19 @@ export type ContextProviderType = {
 };
 
 export type usersType = {
- 
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-    isAdmin: boolean;
-
-}
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+};
 
 export type FormValues = {
   email: string;
   password: string;
   name?: string;
   confirmPassword?: string;
+  isAdmin: boolean;
 };
 
 export enum PayActionKind {

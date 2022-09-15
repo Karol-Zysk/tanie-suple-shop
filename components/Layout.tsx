@@ -15,10 +15,11 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, title }: LayoutProps) => {
-  const { status, data: session } = useSession();
-
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
+  const { status, data: session } = useSession();
+
+ 
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {

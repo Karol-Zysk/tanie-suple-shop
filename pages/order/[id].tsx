@@ -255,8 +255,8 @@ function OrderScreen() {
                     ) : (
                       <div className="w-full">
                         <PayPalButtons
+                          key={"name"}
                           createOrder={createOrder} 
-                          key={"name"}//@ts-ignore
                           onApprove={onApprove}
                           onError={onError}
                         ></PayPalButtons>

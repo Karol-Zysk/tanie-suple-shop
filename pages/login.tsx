@@ -8,11 +8,9 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { FormValues } from "../types";
 
-
-
 const resolver: Resolver<FormValues> = async (values) => {
   return {
-    values: values.email || values.password ? values : {},
+    values: values.email || values.password || values.isAdmin ? values : {},
     errors:
       !values.email || !values.password
         ? {
@@ -48,12 +46,13 @@ const LoginScreen = () => {
     formState: { errors },
   } = useForm<FormValues>({ resolver });
 
-  const submitHandler = async ({ email, password }: FormValues) => {
+  const submitHandler = async ({ email, password, isAdmin }: FormValues) => {
     try {
       const result = await signIn("credentials", {
         redirect: false,
         email,
         password,
+        isAdmin,
       });
       if (result?.error) {
         toast.error(result.error);

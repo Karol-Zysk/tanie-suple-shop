@@ -10,6 +10,7 @@ export default function ProfileScreen() {
   const { data: session } = useSession();
 
   const {
+    handleSubmit,
     register,
     getValues,
     setValue,
@@ -44,7 +45,10 @@ export default function ProfileScreen() {
 
   return (
     <Layout title="Profile">
-      <form className="max-w-screen-md mx-auto">
+      <form
+        onSubmit={handleSubmit(submitHandler)}
+        className="max-w-screen-md mx-auto"
+      >
         <h1 className="mb-4 text-xl">Aktualizuj Profil</h1>
 
         <div className="mb-4">
@@ -114,9 +118,7 @@ export default function ProfileScreen() {
             )}
         </div>
         <div className="mb-4">
-          <button onClick={submitHandler} className="primary-button">
-            Aktualizuj Profil
-          </button>
+          <button className="primary-button">Aktualizuj Profil</button>
         </div>
       </form>
     </Layout>

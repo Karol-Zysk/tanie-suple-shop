@@ -9,12 +9,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(400).send({ message: `${req.method} not supported` });
   }
 
+  await db.connect();
   const session = await getSession({ req });
   if (!session) {
     return res.status(401).send({ message: "signin required" });
   }
-
-  const { user } = session;
   const { name, email, password } = req.body;
 
   if (
@@ -29,8 +28,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  await db.connect();
-  const toUpdateUser = await User.findById(user._id);
+  const toUpdateUser = await User.findOne({ email: email });
+
   toUpdateUser.name = name;
   toUpdateUser.email = email;
 

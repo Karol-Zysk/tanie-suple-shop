@@ -33,7 +33,7 @@ export const options = {
   },
 };
 
-function reducer(state: any, action: { type: any; payload: any; }) {
+function reducer(state: any, action: { type: any; payload: any }) {
   switch (action.type) {
     case "FETCH_REQUEST":
       return { ...state, loading: true, error: "" };
@@ -57,7 +57,7 @@ function AdminDashboardScreen() {
       try {
         dispatch({
           type: "FETCH_REQUEST",
-          payload: undefined
+          payload: undefined,
         });
         const { data } = await axios.get(`/api/admin/summary`);
         dispatch({ type: "FETCH_SUCCESS", payload: data });
@@ -70,12 +70,14 @@ function AdminDashboardScreen() {
   }, []);
 
   const data = {
-    labels: summary.salesData.map((x: { _id: any; }) => x._id), // 2022/01 2022/03
+    labels: summary.salesData.map((x: { _id: any }) => x._id), // 2022/01 2022/03
     datasets: [
       {
         label: "Sales",
         backgroundColor: "rgba(162, 222, 208, 1)",
-        data: summary.salesData.map((x: { totalSales: number; }) => x.totalSales),
+        data: summary.salesData.map(
+          (x: { totalSales: number }) => x.totalSales
+        ),
       },
     ],
   };
@@ -131,12 +133,7 @@ function AdminDashboardScreen() {
                 </div>
               </div>
               <h2 className="text-xl">raport sprzedaży</h2>
-              <Bar
-                options={{
-                  legend: { display: true, position: "right" },
-                }}
-                data={data}
-              />
+              <Bar options={{}} data={data} />
             </div>
           )}
         </div>
