@@ -15,14 +15,21 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (token?._id) session.user._id = token._id;
+      //@ts-ignore
+      if (token?._id) session.user._id = token._id; //@ts-ignore
       if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
       return session;
     },
   },
   providers: [
     CredentialsProvider({
-      async authorize(credentials) {
+      //@ts-ignore
+      async authorize(credentials: {
+        name: string;
+        password: string;
+        email: string;
+        isAdmin: boolean;
+      }) {
         await db.connect();
         const user = await User.findOne({
           email: credentials.email,

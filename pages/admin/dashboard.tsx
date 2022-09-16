@@ -70,7 +70,7 @@ function AdminDashboardScreen() {
   }, []);
 
   const data = {
-    labels: summary.salesData.map((x: { _id: any }) => x._id), // 2022/01 2022/03
+    labels: summary.salesData.map((x: { _id: any }) => x._id), 
     datasets: [
       {
         label: "Sales",
