@@ -78,4 +78,38 @@ export enum PayActionKind {
   PAY_FAIL = "PAY_FAIL",
   PAY_SUCCESS = "PAY_SUCCESS",
   PAY_RESET = "PAY_RESET",
+  DELIVER_REQUEST = "DELIVER_REQUEST",
+  DELIVER_SUCCESS = "DELIVER_SUCCESS",
+  DELIVER_FAIL = "DELIVER_FAIL",
+  DELIVER_RESET = "DELIVER_RESET",
 }
+
+export type OrderType = {
+  _id: string;
+  createdAt: string;
+  user: any;
+  orderItems: {
+    image: string;
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+  shippingAddress?:
+    | {
+        address: string;
+        fullName: string;
+        city: string;
+        postalCode: string;
+        country: string;
+      }
+    | undefined;
+  paymentMethod: string;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  isDelivered: boolean;
+  paidAt?: string;
+  deliveredAt?: string;
+};

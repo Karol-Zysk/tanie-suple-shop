@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useReducer } from "react";
+import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import Layout from "../../components/Layout";
 import { PayActionKind, DataBaseProductType } from "../../types";
@@ -36,6 +37,18 @@ function reducer(state: any, action: PayAction) {
       return { ...state, loadingPay: false, errorPay: action.payload };
     case PayActionKind.PAY_RESET:
       return { ...state, loadingPay: false, successPay: false, errorPay: "" };
+    case "DELIVER_REQUEST":
+      return { ...state, loadingDeliver: true };
+    case "DELIVER_SUCCESS":
+      return { ...state, loadingDeliver: false, successDeliver: true };
+    case "DELIVER_FAIL":
+      return { ...state, loadingDeliver: false };
+    case "DELIVER_RESET":
+      return {
+        ...state,
+        loadingDeliver: false,
+        successDeliver: false,
+      };
 
     default:
       state;
@@ -44,16 +57,26 @@ function reducer(state: any, action: PayAction) {
 function OrderScreen() {
   // order/:id
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-
+  const { data: session } = useSession();
   const { query } = useRouter();
   const orderId = query.id;
 
-  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      order: {},
-      error: "",
-    });
+  const [
+    {
+      loading,
+      error,
+      order,
+      successPay,
+      loadingPay,
+      loadingDeliver,
+      successDeliver,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    order: {},
+    error: "",
+  });
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -67,12 +90,23 @@ function OrderScreen() {
         dispatch({ type: PayActionKind.FETCH_FAIL, payload: getError(err) });
       }
     };
-    if (!order._id || successPay || (order._id && order._id !== orderId)) {
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
       fetchOrder();
       if (successPay) {
         dispatch({
           type: PayActionKind.PAY_RESET,
-          payload: undefined,
+          payload: "",
+        });
+      }
+      if (successDeliver) {
+        dispatch({
+          type: PayActionKind.DELIVER_RESET,
+          payload: "",
         });
       }
     } else {
@@ -89,7 +123,7 @@ function OrderScreen() {
       };
       loadPaypalScript();
     }
-  }, [order, orderId, paypalDispatch, successPay]);
+  }, [order, orderId, paypalDispatch, successDeliver, successPay]);
   const {
     shippingAddress,
     paymentMethod,
@@ -143,6 +177,24 @@ function OrderScreen() {
   }
   function onError(err: any) {
     toast.error(getError(err));
+  }
+
+  async function deliverOrderHandler() {
+    try {
+      dispatch({
+        type: PayActionKind.DELIVER_FAIL,
+        payload: undefined,
+      });
+      const { data } = await axios.put(
+        `/api/admin/orders/${order._id}/deliver`,
+        {}
+      );
+      dispatch({ type: PayActionKind.DELIVER_SUCCESS, payload: data });
+      toast.success("Order is delivered");
+    } catch (err) {
+      dispatch({ type: PayActionKind.DELIVER_FAIL, payload: getError(err) });
+      toast.error(getError(err));
+    }
   }
 
   return (
@@ -226,7 +278,7 @@ function OrderScreen() {
               <ul>
                 <li>
                   <div className="flex justify-between mb-2">
-                    <div>Items</div>
+                    <div>Produkty</div>
                     <div>${itemsPrice}</div>
                   </div>
                 </li>{" "}
@@ -256,13 +308,24 @@ function OrderScreen() {
                       <div className="w-full">
                         <PayPalButtons
                           key={"name"}
-                          createOrder={createOrder} 
+                          createOrder={createOrder} //@ts-ignore
                           onApprove={onApprove}
                           onError={onError}
                         ></PayPalButtons>
                       </div>
                     )}
                     {loadingPay && <div>Chwileczkę...</div>}
+                  </li>
+                )}
+                {session?.user?.isAdmin && order.isPaid && !order.isDelivered && (
+                  <li>
+                    {loadingDeliver && <div>Loading...</div>}
+                    <button
+                      className="w-full primary-button"
+                      onClick={deliverOrderHandler}
+                    >
+                      Złóż zamówieni
+                    </button>
                   </li>
                 )}
               </ul>

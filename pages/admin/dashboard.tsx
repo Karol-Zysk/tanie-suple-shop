@@ -112,13 +112,13 @@ function AdminDashboardScreen() {
             <div>
               <div className="grid grid-cols-1 md:grid-cols-4">
                 <div className="p-5 m-5 card">
-                  <p className="text-3xl">${summary.ordersPrice} </p>
-                  <p>Sprzedarze</p>
-                  <Link href="/admin/orders">Zobacz sprzdarze</Link>
+                  <p className="text-3xl">{summary.ordersPrice}zł </p>
+                  <p>Sprzedaże</p>
+                  <Link href="/admin/orders">Zobacz sprzdaże</Link>
                 </div>
                 <div className="p-5 m-5 card">
                   <p className="text-3xl">{summary.ordersCount} </p>
-                  <p>Orders</p>
+                  <p>Zamówienia</p>
                   <Link href="/admin/orders">Zobacz zamówienia</Link>
                 </div>
                 <div className="p-5 m-5 card">
@@ -128,7 +128,7 @@ function AdminDashboardScreen() {
                 </div>
                 <div className="p-5 m-5 card">
                   <p className="text-3xl">{summary.usersCount} </p>
-                  <p>Users</p>
+                  <p>Użytkownicy</p>
                   <Link href="/admin/users">Zobacz użytkowników</Link>
                 </div>
               </div>
