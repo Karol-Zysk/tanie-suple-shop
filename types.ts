@@ -34,7 +34,7 @@ export type ProductType = {
   quantity?: number;
 };
 export type DataBaseProductType = {
-  _id: ObjectId;
+  _id: string;
   id: number;
   name: string;
   slug: string;
@@ -113,3 +113,22 @@ export type OrderType = {
   paidAt?: string;
   deliveredAt?: string;
 };
+
+export enum GetProductsActionKind {
+  FETCH_REQUEST = "FETCH_REQUEST",
+  FETCH_SUCCESS = "FETCH_SUCCESS",
+  FETCH_FAIL = "FETCH_FAIL",
+}
+export enum EditProductActionKind {
+  FETCH_REQUEST = "FETCH_REQUEST",
+  FETCH_SUCCESS = "FETCH_SUCCESS",
+  FETCH_FAIL = "FETCH_FAIL",
+
+  UPDATE_REQUEST = "UPDATE_REQUEST",
+  UPDATE_SUCCESS = "UPDATE_SUCCESS",
+  UPDATE_FAIL = "UPDATE_FAIL",
+
+  UPLOAD_REQUEST = "UPLOAD_REQUEST",
+  UPLOAD_SUCCESS = "UPLOAD_SUCCESS",
+  UPLOAD_FAIL = "UPLOAD_FAIL",
+}
