@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { ProductsType } from "../types";
+import { DataBaseProductType } from "../types";
 
-export const ProductItem: React.FC<ProductsType> = ({ product }) => {
+interface IProps {
+  product: DataBaseProductType;
+  addToCartHandler: any;
+}
+
+const ProductItem: React.FC<IProps> = ({ product, addToCartHandler }) => {
   return (
     <div className="card">
       <Link href={`/product/${product.slug}`}>
@@ -21,10 +26,15 @@ export const ProductItem: React.FC<ProductsType> = ({ product }) => {
           <h2 className="text-lg">{product.name}</h2>
         </Link>
         <p>{product.price}zł</p>
-        <button  className="primary-button" type="button">
+        <button
+          className="primary-button"
+          type="button"
+          onClick={()=>addToCartHandler(product)}
+        >
           do koszyka
         </button>
       </div>
     </div>
   );
 };
+export default ProductItem;

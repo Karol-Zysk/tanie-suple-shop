@@ -129,7 +129,7 @@ export default function PlaceOrderScreen() {
                       <td className="p-5 text-right">
                         $
                         {item.quantity !== undefined &&
-                          item.quantity * item.price}
+                          item.quantity * item.price}zł
                       </td>
                     </tr>
                   ))}

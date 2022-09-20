@@ -2,6 +2,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useReducer } from "react";
 import Layout from "../components/Layout";
+import { OrderType } from "../types";
 import { getError } from "../utils/error";
 
 function reducer(state: any, action: any) {
@@ -50,15 +51,13 @@ function OrderHistoryScreen() {
                 <th className="px-5 text-left">ID</th>
                 <th className="p-5 text-left">Data</th>
                 <th className="p-5 text-left">Suma</th>
-                <th className="p-5 text-left">Zapłacono</th>
+                <th className="p-5 text-left">Status Płatności</th>
                 <th className="p-5 text-left">Dostarczono</th>
                 <th className="p-5 text-left">Usuń</th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((order: any) => {
-                console.log(order);
-
+              {orders.map((order: OrderType) => {
                 return (
                   <tr key={order._id} className="border-b">
                     <td className="p-5 ">{order._id.substring(20, 24)}</td>
@@ -66,17 +65,17 @@ function OrderHistoryScreen() {
                     <td className="p-5 ">${order.totalPrice}</td>
                     <td className="p-5 ">
                       {order.isPaid
-                        ? `${order.paidAt.substring(0, 10)}`
-                        : "not paid"}
+                        ? `${order?.paidAt?.substring(0, 10)}`
+                        : "nie zapłacono"}
                     </td>
                     <td className="p-5 ">
                       {order.isDelivered
-                        ? `${order.deliveredAt.substring(0, 10)}`
-                        : "not delivered"}
+                        ? `${order?.deliveredAt?.substring(0, 10)}`
+                        : "nie dostarczono"}
                     </td>
                     <td className="p-5 ">
                       <Link href={`/order/${order._id}`} passHref>
-                        <a>Details</a>
+                        <a>Szczegóły</a>
                       </Link>
                     </td>
                   </tr>

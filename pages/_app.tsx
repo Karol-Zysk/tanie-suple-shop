@@ -5,7 +5,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-function MyApp({ Component, pageProps: { session, pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <StoreProvider>

@@ -97,7 +97,7 @@ export default function AdminOrderScreen() {
                       <td className="p-5">
                         {order.isPaid
                           ? `${order?.paidAt?.substring(0, 10)}`
-                          : "not paid"}
+                          : "nie zapłacono"}
                       </td>
                       <td className="p-5">
                         {order.isDelivered

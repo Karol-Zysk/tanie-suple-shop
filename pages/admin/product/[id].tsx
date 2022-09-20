@@ -2,15 +2,15 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useReducer } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Layout from "../../../components/Layout";
-import { EditProductActionKind, ProductType } from "../../../types";
+import { EditProductActionKind } from "../../../types";
 import { getError } from "../../../utils/error";
 
 function reducer(
   state: any,
-  action: { type: EditProductActionKind; payload: any }
+  action: { type: EditProductActionKind; payload: "" | undefined }
 ) {
   switch (action.type) {
     case EditProductActionKind.FETCH_REQUEST:
@@ -63,12 +63,12 @@ export default function AdminProductEditScreen() {
       try {
         dispatch({
           type: EditProductActionKind.FETCH_REQUEST,
-          payload: undefined,
+          payload: "",
         });
         const { data } = await axios.get(`/api/admin/products/${productId}`);
         dispatch({
-          type: EditProductActionKind.UPLOAD_SUCCESS,
-          payload: undefined,
+          type: EditProductActionKind.FETCH_SUCCESS,
+          payload: "",
         });
         setValue("name", data.name);
         setValue("slug", data.slug);
@@ -92,26 +92,30 @@ export default function AdminProductEditScreen() {
   const router = useRouter();
 
   const uploadHandler = async (
-    e: { target: { files: any[] } },
+    e: { target: { files: any } },
     imageField = "image"
   ) => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
     try {
+      console.log(url);
       dispatch({
         type: EditProductActionKind.UPLOAD_REQUEST,
         payload: undefined,
       });
+
       const {
         data: { signature, timestamp },
       } = await axios("/api/admin/cloudinary-sign");
 
       const file = e.target.files[0];
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("signature", signature);
-      formData.append("timestamp", timestamp);
+      formData.append("timestamp", timestamp); //@ts-ignore
       formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
       const { data } = await axios.post(url, formData);
+
       dispatch({
         type: EditProductActionKind.UPLOAD_SUCCESS,
         payload: undefined,
@@ -136,7 +140,7 @@ export default function AdminProductEditScreen() {
     brand,
     countInStock,
     description,
-  }: ProductType) => {
+  }: FieldValues) => {
     try {
       dispatch({
         type: EditProductActionKind.UPDATE_REQUEST,
@@ -154,7 +158,7 @@ export default function AdminProductEditScreen() {
       });
       dispatch({
         type: EditProductActionKind.UPDATE_SUCCESS,
-        payload: undefined
+        payload: undefined,
       });
       toast.success("Product updated successfully");
       router.push("/admin/products");
@@ -200,7 +204,7 @@ export default function AdminProductEditScreen() {
             >
               <h1 className="mb-4 text-xl">{`Edit Product ${productId}`}</h1>
               <div className="mb-4">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Imię</label>
                 <input
                   type="text"
                   className="w-full"
@@ -243,7 +247,7 @@ export default function AdminProductEditScreen() {
                 )}
               </div>
               <div className="mb-4">
-                <label htmlFor="image">obraz</label>
+                <label htmlFor="image">Obraz</label>
                 <input
                   type="text"
                   className="w-full"
@@ -306,9 +310,7 @@ export default function AdminProductEditScreen() {
                   })}
                 />
                 {errors.countInStock && (
-                  <div className="text-red-500">
-                    nieprawidłowe dane
-                  </div>
+                  <div className="text-red-500">nieprawidłowe dane</div>
                 )}
               </div>
               <div className="mb-4">
@@ -322,9 +324,7 @@ export default function AdminProductEditScreen() {
                   })}
                 />
                 {errors.description && (
-                  <div className="text-red-500">
-                    popraw opis
-                  </div>
+                  <div className="text-red-500">popraw opis</div>
                 )}
               </div>
               <div className="mb-4">
