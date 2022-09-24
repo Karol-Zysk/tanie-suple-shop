@@ -6,8 +6,10 @@ import { OrderType } from "../types";
 import { getError } from "../utils/error";
 
 function reducer(state: any, action: any) {
+  
   switch (action.type) {
     case "FETCH_REQUEST":
+      
       return { ...state, loading: true, error: "" };
     case "FETCH_SUCCESS":
       return { ...state, loading: false, orders: action.payload, error: "" };

@@ -97,7 +97,6 @@ export default function AdminProductEditScreen() {
   ) => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
     try {
-      console.log(url);
       dispatch({
         type: EditProductActionKind.UPLOAD_REQUEST,
         payload: undefined,

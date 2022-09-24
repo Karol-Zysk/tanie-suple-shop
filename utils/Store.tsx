@@ -1,8 +1,13 @@
 import Cookies from "js-cookie";
 import { createContext, FC, useReducer } from "react";
-import { ContextProviderType, ProductType } from "../types";
+import { ContextProviderType, ProductType, ShippingAdressType } from "../types";
 
 export const Store = createContext<any | undefined>(undefined);
+
+export type CartStateType = {
+  cartItems: ProductType[];
+  shippingAddress: ShippingAdressType;
+};
 
 const initialState = {
   cart: Cookies.get("cart") //@ts-ignore
@@ -13,8 +18,8 @@ const initialState = {
 function reducer(
   state: {
     cart: {
-      [x: string]: any;
-      cartItems: any[];
+      [x: string]: {};
+      cartItems: ProductType[];
     };
   },
   action: { type: string; payload: ProductType }
@@ -78,6 +83,7 @@ function reducer(
 export const StoreProvider: FC<ContextProviderType> = ({ children }) => {
   //@ts-ignore
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const value = { state, dispatch };
   return <Store.Provider value={value}>{children}</Store.Provider>;
 };

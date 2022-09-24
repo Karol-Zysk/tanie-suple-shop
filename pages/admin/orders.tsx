@@ -5,7 +5,15 @@ import Layout from "../../components/Layout";
 import { OrderType } from "../../types";
 import { getError } from "../../utils/error";
 
-function reducer(state: any, action: { type: string; payload: {} }) {
+// type IOrder = {
+//   loading?: boolean;
+//   orders?: OrderType[] | undefined;
+//   error?: string | any;
+// };
+
+function reducer(state: any, action: any) {
+  console.log(state);
+
   switch (action.type) {
     case "FETCH_REQUEST":
       return { ...state, loading: true, error: "" };

@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 function CartScreen() {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
+
   const {
     cart: { cartItems },
   } = state;

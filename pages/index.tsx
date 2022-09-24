@@ -15,6 +15,7 @@ interface Iproducts {
 
 const Home: NextPage<Iproducts> = ({ products }) => {
   const { state, dispatch } = useContext(Store);
+
   const { cart } = state;
 
   const addToCartHandler = async (product: DataBaseProductType) => {
@@ -51,7 +52,6 @@ export async function getServerSideProps() {
   await db.connect();
 
   const products = await Product.find({}).lean();
-  console.log(products);
   await db.disconnect();
   return {
     props: {

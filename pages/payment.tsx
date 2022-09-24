@@ -10,6 +10,7 @@ export default function PaymentScreen() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
   const { state, dispatch } = useContext(Store);
+
   const { cart } = state;
   const { shippingAddress, paymentMethod } = cart;
 
@@ -77,4 +78,4 @@ export default function PaymentScreen() {
   );
 }
 
-PaymentScreen.auth = true
+PaymentScreen.auth = true;

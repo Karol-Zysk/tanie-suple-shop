@@ -34,7 +34,7 @@ export type ProductType = {
   quantity?: number;
 };
 export type DataBaseProductType = {
-  _id: string ;
+  _id: string;
   id: number;
   name: string;
   slug: string;
@@ -55,7 +55,13 @@ export type ContextProviderType = {
 };
 
 export type usersType = {
-  id: number;
+  name: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+};
+export type DataBaseUsersType = {
+  _id: string;
   name: string;
   email: string;
   password: string;
@@ -114,8 +120,13 @@ export type OrderType = {
   deliveredAt?: string;
 };
 
-
-
+export type ShippingAdressType = {
+  fullName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
 
 export enum GetProductsActionKind {
   FETCH_REQUEST = "FETCH_REQUEST",
@@ -130,13 +141,8 @@ export enum GetProductsActionKind {
   DELETE_SUCCESS = "DELETE_SUCCESS",
   DELETE_FAIL = "DELETE_FAIL",
   DELETE_RESET = "DELETE_RESET",
-
-
-
-
-
-
 }
+
 export enum EditProductActionKind {
   FETCH_REQUEST = "FETCH_REQUEST",
   FETCH_SUCCESS = "FETCH_SUCCESS",
@@ -145,8 +151,23 @@ export enum EditProductActionKind {
   UPDATE_REQUEST = "UPDATE_REQUEST",
   UPDATE_SUCCESS = "UPDATE_SUCCESS",
   UPDATE_FAIL = "UPDATE_FAIL",
-  
+
   UPLOAD_REQUEST = "UPLOAD_REQUEST",
   UPLOAD_SUCCESS = "UPLOAD_SUCCESS",
   UPLOAD_FAIL = "UPLOAD_FAIL",
+}
+
+export enum ListUsersActionKind {
+  FETCH_REQUEST = "FETCH_REQUEST",
+  FETCH_SUCCESS = "FETCH_SUCCESS",
+  FETCH_FAIL = "FETCH_FAIL",
+
+  CREATE_REQUEST = "CREATE_REQUEST",
+  CREATE_SUCCESS = "CREATE_SUCCESS",
+  CREATE_FAIL = "CREATE_FAIL",
+
+  DELETE_REQUEST = "DELETE_REQUEST",
+  DELETE_SUCCESS = "DELETE_SUCCESS",
+  DELETE_FAIL = "DELETE_FAIL",
+  DELETE_RESET = "DELETE_RESET",
 }

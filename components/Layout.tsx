@@ -16,10 +16,9 @@ interface LayoutProps {
 
 const Layout = ({ children, title }: LayoutProps) => {
   const { state, dispatch } = useContext(Store);
+
   const { cart } = state;
   const { status, data: session } = useSession();
-
- 
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
@@ -102,7 +101,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                           href="#"
                           onClick={logoutClickHandler}
                         >
-                          Logout
+                          Wyloguj
                         </a>
                       </Menu.Item>
                     </Menu.Items>

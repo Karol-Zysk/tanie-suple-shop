@@ -15,6 +15,7 @@ export default function ShippingScreen() {
   } = useForm();
 
   const { state, dispatch } = useContext(Store);
+
   const { cart } = state;
   const { shippingAddress } = cart;
   const router = useRouter();

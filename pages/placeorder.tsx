@@ -13,6 +13,7 @@ import { DataBaseProductType } from "../types";
 
 export default function PlaceOrderScreen() {
   const { state, dispatch } = useContext(Store);
+
   const { cart } = state;
   const { cartItems, shippingAddress, paymentMethod } = cart;
 
@@ -129,7 +130,8 @@ export default function PlaceOrderScreen() {
                       <td className="p-5 text-right">
                         $
                         {item.quantity !== undefined &&
-                          item.quantity * item.price}zł
+                          item.quantity * item.price}
+                        zł
                       </td>
                     </tr>
                   ))}
@@ -169,7 +171,7 @@ export default function PlaceOrderScreen() {
                   </div>
                 </li>
                 <li>
-                  <button 
+                  <button
                     disabled={loading}
                     onClick={placeOrderHandler}
                     className="w-full font-semibold primary-button"
