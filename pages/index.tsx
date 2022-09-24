@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NextPage } from "next";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import Layout from "../components/Layout";
 import ProductItem from "../components/ProductItem";
@@ -15,6 +15,9 @@ interface Iproducts {
 
 const Home: NextPage<Iproducts> = ({ products }) => {
   const { state, dispatch } = useContext(Store);
+  const [filters, setFilters] = useState({
+    s: "Trec",
+  });
 
   const { cart } = state;
 
@@ -33,16 +36,26 @@ const Home: NextPage<Iproducts> = ({ products }) => {
     toast.success("Dodano do koszyka");
   };
 
+  const p = products.filter(
+    (prod) => prod.brand.toLowerCase().indexOf(filters.s.toLowerCase()) >= 0
+  );
+
+  console.log(p + "elo");
+
+  console.log(products);
+
   return (
     <Layout title="Strona Główna">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {products.map((product) => (
-          <ProductItem
-            product={product}
-            key={product.slug}
-            addToCartHandler={addToCartHandler}
-          ></ProductItem>
-        ))}
+        {p.map((product) => {
+          return (
+            <ProductItem
+              product={product}
+              key={product.slug}
+              addToCartHandler={addToCartHandler}
+            ></ProductItem>
+          );
+        })}
       </div>
     </Layout>
   );
