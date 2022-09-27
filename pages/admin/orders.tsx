@@ -1,6 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useReducer } from "react";
+import AdminPanel from "../../components/AdminPanel";
 import Layout from "../../components/Layout";
 import { OrderType } from "../../types";
 import { getError } from "../../utils/error";
@@ -52,24 +53,7 @@ export default function AdminOrderScreen() {
   return (
     <Layout title="Admin Dashboard">
       <div className="grid md:grid-cols-4 md:gap-5">
-        <div>
-          <ul>
-            <li>
-              <Link href="/admin/dashboard">Panel</Link>
-            </li>
-            <li>
-              <Link href="/admin/orders">
-                <a className="font-bold">Zamówienia</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/products">Produkty</Link>
-            </li>
-            <li>
-              <Link href="/admin/users">Użytkownicy</Link>
-            </li>
-          </ul>
-        </div>
+      <AdminPanel/>
         <div className="overflow-x-auto md:col-span-3">
           <h1 className="mb-4 text-xl">Zamówienia admina</h1>
 

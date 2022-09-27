@@ -14,6 +14,7 @@ import {
 import React, { useEffect, useReducer } from "react";
 import Layout from "../../components/Layout";
 import { getError } from "../../utils/error";
+import AdminPanel from "../../components/AdminPanel";
 
 ChartJS.register(
   CategoryScale,
@@ -84,24 +85,7 @@ function AdminDashboardScreen() {
   return (
     <Layout title="Admin Dashboard">
       <div className="grid md:grid-cols-4 md:gap-5">
-        <div>
-          <ul>
-            <li>
-              <Link href="/admin/dashboard">
-                <a className="font-bold">Panel</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/orders">Zamówienia</Link>
-            </li>
-            <li>
-              <Link href="/admin/products">Produkty</Link>
-            </li>
-            <li>
-              <Link href="/admin/users">Użytkownicy</Link>
-            </li>
-          </ul>
-        </div>
+      <AdminPanel/>
         <div className="md:col-span-3">
           <h1 className="mb-4 text-xl">Panel Admina</h1>
           {loading ? (

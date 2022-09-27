@@ -2,6 +2,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useReducer } from 'react';
 import { toast } from 'react-toastify';
+import AdminPanel from '../../components/AdminPanel';
 import Layout from '../../components/Layout';
 import { GetProductsActionKind, DataBaseUsersType } from '../../types';
 import { getError } from '../../utils/error';
@@ -94,29 +95,12 @@ function AdminUsersScreen() {
   return (
     <Layout title="Users">
       <div className="grid md:grid-cols-4 md:gap-5">
-        <div>
-          <ul>
-            <li>
-              <Link href="/admin/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link href="/admin/orders">Orders</Link>
-            </li>
-            <li>
-              <Link href="/admin/products">Products</Link>
-            </li>
-            <li>
-              <Link href="/admin/users">
-                <a className="font-bold">Users</a>
-              </Link>
-            </li>
-          </ul>
-        </div>
+      <AdminPanel/>
         <div className="overflow-x-auto md:col-span-3">
-          <h1 className="mb-4 text-xl">Users</h1>
-          {loadingDelete && <div>Deleting...</div>}
+          <h1 className="mb-4 text-xl">użytkownicy</h1>
+          {loadingDelete && <div>Usuwanie...</div>}
           {loading ? (
-            <div>Loading...</div>
+            <div>Chwileczkę...</div>
           ) : error ? (
             <div className="alert-error">{error}</div>
           ) : (
@@ -125,10 +109,10 @@ function AdminUsersScreen() {
                 <thead className="border-b">
                   <tr>
                     <th className="px-5 text-left">ID</th>
-                    <th className="p-5 text-left">NAME</th>
+                    <th className="p-5 text-left">IMIĘ</th>
                     <th className="p-5 text-left">EMAIL</th>
                     <th className="p-5 text-left">ADMIN</th>
-                    <th className="p-5 text-left">ACTIONS</th>
+                    <th className="p-5 text-left">AKCJE</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -141,7 +125,7 @@ function AdminUsersScreen() {
                       <td className="p-5 ">
                         <Link href={`/admin/user/${user._id}`} passHref>
                           <a type="button" className="default-button">
-                            Edit
+                            Edytuj
                           </a>
                         </Link>
                         &nbsp;
@@ -150,7 +134,7 @@ function AdminUsersScreen() {
                           className="default-button"
                           onClick={() => deleteHandler(user._id)}
                         >
-                          Delete
+                          Usuń
                         </button>
                       </td>
                     </tr>

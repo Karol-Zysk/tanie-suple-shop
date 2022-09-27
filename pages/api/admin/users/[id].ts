@@ -21,14 +21,14 @@ const deleteHandler = async (req: NextApiRequest, res:NextApiResponse) => {
   const user = await User.findById(req.query.id);
   if (user) {
     if (user.email === 'admin@example.com') {
-      return res.status(400).send({ message: 'Can not delete admin' });
+      return res.status(400).send({ message: 'Nie można usunąć admina' });
     }
     await user.remove();
     await db.disconnect();
-    res.send({ message: 'User Deleted' });
+    res.send({ message: 'Użytkownik usunięty' });
   } else {
     await db.disconnect();
-    res.status(404).send({ message: 'User Not Found' });
+    res.status(404).send({ message: 'Nie znaleziono użytkownika' });
   }
 };
 

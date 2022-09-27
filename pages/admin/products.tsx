@@ -9,6 +9,7 @@ import {
 import { useRouter } from "next/router";
 import { getError } from "../../utils/error";
 import { toast } from "react-toastify";
+import AdminPanel from "../../components/AdminPanel";
 
 interface PayAction {
   type: GetProductsActionKind;
@@ -131,24 +132,7 @@ export default function AdminProdcutsScreen() {
   return (
     <Layout title="Admin Products">
       <div className="grid md:grid-cols-4 md:gap-5">
-        <div>
-          <ul>
-            <li>
-              <Link href="/admin/dashboard">Panel</Link>
-            </li>
-            <li>
-              <Link href="/admin/orders">Zamówienia</Link>
-            </li>
-            <li>
-              <Link href="/admin/products">
-                <a className="font-bold">Produkty</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/users">Użytkownicy</Link>
-            </li>
-          </ul>
-        </div>
+      <AdminPanel/>
         <div className="overflow-x-auto md:col-span-3">
         <div className="flex justify-between">
             <h1 className="mb-4 text-xl">Produkty</h1>

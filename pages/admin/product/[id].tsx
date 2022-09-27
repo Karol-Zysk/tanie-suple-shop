@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useReducer } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import AdminPanel from "../../../components/AdminPanel";
 import Layout from "../../../components/Layout";
 import { EditProductActionKind } from "../../../types";
 import { getError } from "../../../utils/error";
@@ -171,26 +172,9 @@ export default function AdminProductEditScreen() {
   };
 
   return (
-    <Layout title={`Edit Product ${productId}`}>
+    <Layout title={`Edytuj Produkt ${productId}`}>
       <div className="grid md:grid-cols-4 md:gap-5">
-        <div>
-          <ul>
-            <li>
-              <Link href="/admin/dashboard">Panel</Link>
-            </li>
-            <li>
-              <Link href="/admin/orders">Zamówienia</Link>
-            </li>
-            <li>
-              <Link href="/admin/products">
-                <a className="font-bold">Produkty</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/users">Użytkownicy</Link>
-            </li>
-          </ul>
-        </div>
+      <AdminPanel/>
         <div className="md:col-span-3">
           {loading ? (
             <div>Chwileczkę...</div>

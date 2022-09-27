@@ -27,7 +27,10 @@ a {
 }
 
 .primary-button {
-  @apply px-4 py-2 shadow outline-none rounded-xl bg-amber-300 hover:bg-amber-400 active:bg-amber-500;
+  @apply px-4 py-2 shadow outline-none cursor-pointer rounded-xl bg-amber-300 hover:bg-amber-400 active:bg-amber-500;
+}
+.selected-button {
+  @apply px-3 py-1 text-sm shadow outline-none cursor-pointer rounded-xl hover:bg-amber-400 active:bg-amber-500;
 }
 
 input,
