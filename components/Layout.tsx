@@ -94,7 +94,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                             Historia Zamówień
                           </DropdownLink>
                         </Menu.Item>
-                        {session?.user?.isAdmin && (
+                        {session && session?.user?.isAdmin && (
                           <Menu.Item>
                             <DropdownLink
                               className="dropdown-link"
