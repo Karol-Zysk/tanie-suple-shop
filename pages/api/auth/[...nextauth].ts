@@ -15,27 +15,29 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      //@ts-ignore
-      if (token?._id) session.user._id = token._id; //@ts-ignore
+      if (token?._id) session.user._id = token._id;
       if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
       return session;
     },
   },
   providers: [
     CredentialsProvider({
-      //@ts-ignore
-      async authorize(credentials: {
-        name: string;
-        password: string;
-        email: string;
-        isAdmin: boolean;
-      }) {
+      name: "Credentials",
+      credentials: {
+        name: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" },
+        email: { label: "Email", type: "email" },
+      },
+      async authorize(credentials) {
         await db.connect();
         const user = await User.findOne({
-          email: credentials.email,
+          email: credentials?.email,
         });
         await db.disconnect();
-        if (user && bcryptjs.compareSync(credentials.password, user.password)) {
+        if (
+          user &&
+          bcryptjs.compareSync(credentials!.password, user.password)
+        ) {
           return {
             _id: user._id,
             name: user.name,
