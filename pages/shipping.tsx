@@ -28,14 +28,7 @@ export default function ShippingScreen() {
     setValue("country", shippingAddress?.country);
   }, [setValue, shippingAddress]);
 
-  //   interface IShippingData  {
-  //     fullName: string;
-  //     address: string;
-  //     city:string;
-  //     postalCode: number;
-  //     country: string
 
-  //   }
 
   const submitHandler = ({
     fullName,

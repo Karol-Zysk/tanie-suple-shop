@@ -9,6 +9,7 @@ import { DataBaseProductType } from "../types";
 import { brandsArray, categoryArray } from "../utils/data";
 import db from "../utils/db";
 import { Store } from "../utils/Store";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 interface Iproducts {
   products: DataBaseProductType[];
@@ -19,6 +20,20 @@ const Home: NextPage<Iproducts> = ({ products }) => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectButtonActive, setSelecteButtonActive] = useState(false);
+  const [sortProducts, setSortProducts] = useState(products);
+  const [sortByMin, setSortByMin] = useState(false);
+  const [sortByMax, setSortByMax] = useState(false);
+
+  const sortHandlerMax = () => {
+    setSortByMin(false);
+    setSortByMax(true);
+    setSortProducts(sortProducts.sort((a, b) => a.price - b.price));
+  };
+  const sortHandlerMin = () => {
+    setSortByMin(true);
+    setSortByMax(false);
+    setSortProducts(sortProducts.sort((a, b) => b.price - a.price));
+  };
 
   const { cart } = state;
 
@@ -54,7 +69,7 @@ const Home: NextPage<Iproducts> = ({ products }) => {
     toast.success("Dodano do koszyka");
   };
 
-  const p = products.filter(
+  const p = sortProducts.filter(
     (prod) =>
       prod.brand.toLowerCase().indexOf(selectedBrand.toLowerCase()) >= 0 &&
       prod.category.toLowerCase().indexOf(selectedCategory.toLowerCase()) >= 0
@@ -62,11 +77,33 @@ const Home: NextPage<Iproducts> = ({ products }) => {
 
   return (
     <Layout title="Strona Główna">
-      <div className="flex w-full gap-3 rou">
-        <div className="flex-col content-center w-1/6 p-3 text-center border-2 rounded-lg">
-          <h1 className="mb-3">Sortuj</h1>
+      <div className="flex w-full gap-3 ">
+        <div className="flex-col content-center w-1/4 p-3 text-center border-2 rounded-lg">
+          <h1 className="mb-3 text-xl font-bold">Sortuj</h1>
+
           <div className="flex-col pl-1 bg-white border-2 ">
-            <h1 className="mt-3">Firma</h1>
+            <h1 className="mt-3 text-xl font-semibold">Cena</h1>
+            <div className="flex justify-around my-3 ">
+              <button
+                onClick={sortHandlerMax}
+                className={`transition-all mr-1   my-1 selected-button-price  ${
+                  sortByMax ? "bg-amber-500" : "bg-amber-300"
+                }`}
+              >
+                Rosnąco <FaArrowUp className="ml-1" />
+              </button>
+              <button
+                onClick={sortHandlerMin}
+                className={`transition-all mr-1  my-1 selected-button-price  ${
+                  sortByMin ? "bg-amber-500" : "bg-amber-300"
+                }`}
+              >
+                Malejąco
+                <FaArrowDown className="ml-1" />
+              </button>
+            </div>
+            <h1 className="mt-3 text-xl font-semibold">Firma</h1>
+
             <div className="flex flex-wrap my-3 ">
               {brandsArray.map((brandName) => {
                 return (
@@ -86,7 +123,7 @@ const Home: NextPage<Iproducts> = ({ products }) => {
                 );
               })}
             </div>
-            <h1>Kategorie</h1>
+            <h1 className="text-xl font-semibold">Kategorie</h1>
             <div className="flex flex-wrap my-3 ">
               {categoryArray.map((category) => {
                 return (
@@ -110,16 +147,18 @@ const Home: NextPage<Iproducts> = ({ products }) => {
             </div>
           </div>
         </div>
-        <div className="grid content-around w-5/6 grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {p.map((product) => {
-            return (
-              <ProductItem
-                product={product}
-                key={product.slug}
-                addToCartHandler={addToCartHandler}
-              ></ProductItem>
-            );
-          })}
+        <div className="flex flex-col items-center content-center w-full ">
+          <div className="grid content-around grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {p.map((product) => {
+              return (
+                <ProductItem
+                  product={product}
+                  key={product.slug}
+                  addToCartHandler={addToCartHandler}
+                ></ProductItem>
+              );
+            })}
+          </div>
         </div>
       </div>
     </Layout>
