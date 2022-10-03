@@ -23,13 +23,22 @@ export default NextAuth({
   secret: process.env.AUTH_SECRET,
   providers: [
     CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        name: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" },
+        email: { label: "Email", type: "email" },
+      },
       async authorize(credentials) {
         await db.connect();
         const user = await User.findOne({
-          email: credentials.email,
+          email: credentials?.email,
         });
         await db.disconnect();
-        if (user && bcryptjs.compareSync(credentials.password, user.password)) {
+        if (
+          user &&
+          bcryptjs.compareSync(credentials!.password, user.password)
+        ) {
           return {
             _id: user._id,
             name: user.name,
