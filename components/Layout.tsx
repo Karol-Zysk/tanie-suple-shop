@@ -17,11 +17,14 @@ interface LayoutProps {
 
 const Layout = ({ children, title }: LayoutProps) => {
   const { state, dispatch } = useContext(Store);
-
+  const [state2, setState] = useState(true);
   const { cart } = state;
   const { status, data: session } = useSession();
 
-  console.log(session);
+  useEffect(() => {
+    if (session?.user?.isAdmin) setState(true);
+    else setState(false);
+  }, [session]);
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
@@ -96,7 +99,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                             Historia Zamówień
                           </DropdownLink>
                         </Menu.Item>
-                        {session && session?.user?.isAdmin && (
+                        {state2 && (
                           <Menu.Item>
                             <DropdownLink
                               className="dropdown-link"
