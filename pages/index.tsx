@@ -17,25 +17,41 @@ interface Iproducts {
 
 const Home: NextPage<Iproducts> = ({ products }) => {
   const { state, dispatch } = useContext(Store);
+  const { cart } = state;
+
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectButtonActive, setSelecteButtonActive] = useState(false);
+  //sort state
   const [sortProducts, setSortProducts] = useState(products);
-  const [sortByMin, setSortByMin] = useState(false);
-  const [sortByMax, setSortByMax] = useState(false);
+  const [sortBy, setSortBy] = useState(false);
+  //sort by price
+  const [sortByMinPrice, setSortByMinPrice] = useState(false);
+  const [sortByMaxPrice, setSortByMaxPrice] = useState(false);
+  //sort by rating
+  const [sortByMinRating, setSortByMinRating] = useState(false);
+  const [sortByMaxRating, setSortByMaxRating] = useState(false);
 
-  const sortHandlerMax = () => {
-    setSortByMin(false);
-    setSortByMax(true);
+  const handleSortByMaxPrice = () => {
+    setSortByMinPrice(false);
+    setSortByMaxPrice(true);
     setSortProducts(sortProducts.sort((a, b) => a.price - b.price));
   };
-  const sortHandlerMin = () => {
-    setSortByMin(true);
-    setSortByMax(false);
+  const handleSortByMinPrice = () => {
+    setSortByMinPrice(true);
+    setSortByMaxPrice(false);
     setSortProducts(sortProducts.sort((a, b) => b.price - a.price));
   };
-
-  const { cart } = state;
+  const handleSortByMaxRating = () => {
+    setSortByMinRating(false);
+    setSortByMaxRating(true);
+    setSortProducts(sortProducts.sort((a, b) => a.rating - b.rating));
+  };
+  const handleSortByMinRating = () => {
+    setSortByMinRating(true);
+    setSortByMaxRating(false);
+    setSortProducts(sortProducts.sort((a, b) => b.rating - a.rating));
+  };
 
   const brandHandler = (e: {
     currentTarget: { value: SetStateAction<string> };
@@ -81,27 +97,69 @@ const Home: NextPage<Iproducts> = ({ products }) => {
         <div className="flex-col content-center w-1/4 p-3 text-center border-2 rounded-lg">
           <h1 className="mb-3 text-xl font-bold">Sortuj</h1>
 
-          <div className="flex-col pl-1 bg-white border-2 ">
-            <h1 className="mt-3 text-xl font-semibold">Cena</h1>
-            <div className="flex justify-around my-3 ">
-              <button
-                onClick={sortHandlerMax}
-                className={`transition-all mr-1   my-1 selected-button-price  ${
-                  sortByMax ? "bg-amber-500" : "bg-amber-300"
+          <div className="flex-col pt-3 pl-1 bg-white border-2 ">
+            <div>
+              <span
+                onClick={() => setSortBy(true)}
+                className={`transition-all mr-1 mt-3 text-xl cursor-pointer   my-1   ${
+                  sortBy ? "font-bold" : ""
                 }`}
               >
-                Rosnąco <FaArrowUp className="ml-1" />
-              </button>
-              <button
-                onClick={sortHandlerMin}
-                className={`transition-all mr-1  my-1 selected-button-price  ${
-                  sortByMin ? "bg-amber-500" : "bg-amber-300"
+                Cena
+              </span>{" "}
+              /{" "}
+              <span
+                onClick={() => setSortBy(false)}
+                className={`transition-all mr-1 mt-3 text-xl cursor-pointer   my-1   ${
+                  sortBy ? "" : "font-bold"
                 }`}
               >
-                Malejąco
-                <FaArrowDown className="ml-1" />
-              </button>
+                Ocena
+              </span>
             </div>
+            <>
+              {sortBy ? (
+                <div className="flex justify-around my-3 ">
+                  <button
+                    onClick={handleSortByMaxPrice}
+                    className={`transition-all mr-1   my-1 selected-button-price  ${
+                      sortByMaxPrice ? "bg-amber-500" : "bg-amber-300"
+                    }`}
+                  >
+                    Rosnąco <FaArrowUp className="ml-1" />
+                  </button>
+                  <button
+                    onClick={handleSortByMinPrice}
+                    className={`transition-all mr-1  my-1 selected-button-price  ${
+                      sortByMinPrice ? "bg-amber-500" : "bg-amber-300"
+                    }`}
+                  >
+                    Malejąco
+                    <FaArrowDown className="ml-1" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-around my-3 ">
+                  <button
+                    onClick={handleSortByMaxRating}
+                    className={`transition-all mr-1   my-1 selected-button-price  ${
+                      sortByMaxRating ? "bg-amber-500" : "bg-amber-300"
+                    }`}
+                  >
+                    Rosnąco <FaArrowUp className="ml-1" />
+                  </button>
+                  <button
+                    onClick={handleSortByMinRating}
+                    className={`transition-all mr-1  my-1 selected-button-price  ${
+                      sortByMinRating ? "bg-amber-500" : "bg-amber-300"
+                    }`}
+                  >
+                    Malejąco
+                    <FaArrowDown className="ml-1" />
+                  </button>
+                </div>
+              )}
+            </>
             <h1 className="mt-3 text-xl font-semibold">Firma</h1>
 
             <div className="flex flex-wrap my-3 ">

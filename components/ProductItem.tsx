@@ -8,11 +8,7 @@ interface IProps {
   addToCartHandler: any;
 }
 
-
-
 const ProductItem: React.FC<IProps> = ({ product, addToCartHandler }) => {
-  
-
   return (
     <div className="card">
       <Link href={`/product/${product.slug}`}>
@@ -30,6 +26,7 @@ const ProductItem: React.FC<IProps> = ({ product, addToCartHandler }) => {
           <h2 className="text-lg">{product.name}</h2>
         </Link>
         <p>{product.price}zł</p>
+        <p>Ocena: {product.rating}</p>
         <button
           className="primary-button"
           type="button"
