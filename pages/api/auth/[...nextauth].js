@@ -1,12 +1,12 @@
-import bcryptjs from "bcryptjs";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import User from "../../../models/User";
-import db from "../../../utils/db";
+import bcryptjs from 'bcryptjs';
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import User from '../../../models/User';
+import db from '../../../utils/db';
 
 export default NextAuth({
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -22,13 +22,7 @@ export default NextAuth({
   },
   providers: [
     CredentialsProvider({
-      //@ts-ignore
-      async authorize(credentials: {
-        name: string;
-        password: string;
-        email: string;
-        isAdmin: boolean;
-      }) {
+      async authorize(credentials) {
         await db.connect();
         const user = await User.findOne({
           email: credentials.email,
@@ -39,11 +33,11 @@ export default NextAuth({
             _id: user._id,
             name: user.name,
             email: user.email,
-            image: "f",
+            image: 'f',
             isAdmin: user.isAdmin,
           };
         }
-        throw new Error("Invalid email or password");
+        throw new Error('Invalid email or password');
       },
     }),
   ],
