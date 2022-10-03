@@ -15,8 +15,7 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      //@ts-ignore
-      if (token?._id) session.user._id = token._id; //@ts-ignore
+      if (token?._id) session.user._id = token._id;
       if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
       return session;
     },

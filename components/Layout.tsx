@@ -20,8 +20,8 @@ const Layout = ({ children, title }: LayoutProps) => {
 
   const { cart } = state;
   const { status, data: session } = useSession();
-  console.log();
-  
+
+  console.log(session);
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
