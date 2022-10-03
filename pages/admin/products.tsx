@@ -2,10 +2,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useReducer } from "react";
 import Layout from "../../components/Layout";
-import {
-  DataBaseProductType,
-  GetProductsActionKind,
-} from "../../types";
+import { DataBaseProductType, GetProductsActionKind } from "../../types";
 import { useRouter } from "next/router";
 import { getError } from "../../utils/error";
 import { toast } from "react-toastify";
@@ -106,35 +103,35 @@ export default function AdminProdcutsScreen() {
     }
   }, [successDelete]);
 
-  const deleteHandler = async (productId: DataBaseProductType) => {
-    if (!window.confirm("Are you sure?")) {
-      return;
-    }
-    try {
-      dispatch({
-        type: GetProductsActionKind.DELETE_REQUEST,
-        payload: undefined,
-      });
-      await axios.delete(`/api/admin/products/${productId}`);
-      dispatch({
-        type: GetProductsActionKind.DELETE_SUCCESS,
-        payload: undefined,
-      });
-      toast.success("Pomylnie usuniéto");
-    } catch (err) {
-      dispatch({
-        type: GetProductsActionKind.DELETE_FAIL,
-        payload: undefined,
-      });
-      toast.error(getError(err));
-    }
-  };
+  // const deleteHandler = async (productId: DataBaseProductType) => {
+  //   if (!window.confirm("Are you sure?")) {
+  //     return;
+  //   }
+  //   try {
+  //     dispatch({
+  //       type: GetProductsActionKind.DELETE_REQUEST,
+  //       payload: undefined,
+  //     });
+  //     await axios.delete(`/api/admin/products/${productId}`);
+  //     dispatch({
+  //       type: GetProductsActionKind.DELETE_SUCCESS,
+  //       payload: undefined,
+  //     });
+  //     toast.success("Pomylnie usuniéto");
+  //   } catch (err) {
+  //     dispatch({
+  //       type: GetProductsActionKind.DELETE_FAIL,
+  //       payload: undefined,
+  //     });
+  //     toast.error(getError(err));
+  //   }
+  // };
   return (
     <Layout title="Admin Products">
       <div className="grid md:grid-cols-4 md:gap-5">
-      <AdminPanel/>
+        <AdminPanel />
         <div className="overflow-x-auto md:col-span-3">
-        <div className="flex justify-between">
+          <div className="flex justify-between">
             <h1 className="mb-4 text-xl">Produkty</h1>
             {loadingDelete && <div>Usuwanie...</div>}
             <button
@@ -142,7 +139,7 @@ export default function AdminProdcutsScreen() {
               onClick={createHandler}
               className="primary-button"
             >
-              {loadingCreate ? 'Loading' : 'Create'}
+              {loadingCreate ? "Loading" : "Create"}
             </button>
           </div>
           {loading ? (
@@ -179,13 +176,13 @@ export default function AdminProdcutsScreen() {
                           </a>
                         </Link>
                         &nbsp;
-                        <button
+                        {/* <button
                           onClick={() => deleteHandler(product._id)}
                           className="default-button"
                           type="button"
                         >
                           Usuń
-                        </button>
+                        </button> */}
                       </td>
                     </tr>
                   ))}
