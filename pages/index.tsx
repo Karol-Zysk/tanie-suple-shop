@@ -1,4 +1,5 @@
 import axios from "axios";
+import React from 'react'
 import { NextPage } from "next";
 import { SetStateAction, useContext, useState } from "react";
 import { toast } from "react-toastify";
@@ -185,8 +186,8 @@ const Home: NextPage<Iproducts> = ({ products }) => {
             <div className="flex flex-wrap my-3 ">
               {categoryArray.map((category) => {
                 return (
-                  <>
-                    <div key={category}>
+                  <React.Fragment key={category}>
+                    <div >
                       <button
                         value={category}
                         className={`transition-all mr-1  my-1 selected-button  ${
@@ -199,7 +200,7 @@ const Home: NextPage<Iproducts> = ({ products }) => {
                         {category}
                       </button>
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>
