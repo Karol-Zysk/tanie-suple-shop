@@ -1,4 +1,4 @@
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -118,8 +118,8 @@ function OrderScreen() {
             "client-id": clientId,
             currency: "USD",
           },
-        }); //@ts-ignore
-        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+        });
+        paypalDispatch({ type: "setLoadingStatus", value: SCRIPT_LOADING_STATE.PENDING });
       };
       loadPaypalScript();
     }

@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = session;
   await db.connect();
   const newOrder = new Order({
-    ...req.body, //@ts-ignore
+    ...req.body,
     user: user,
   });
 
