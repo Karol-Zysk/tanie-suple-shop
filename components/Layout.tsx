@@ -10,8 +10,6 @@ import { Store } from "../utils/Store";
 import DropdownLink from "./DropdownLink";
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai";
 
-import "next-auth";
-
 declare module "next-auth" {
   interface User {
     isAdmin: boolean;

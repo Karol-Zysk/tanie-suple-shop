@@ -180,7 +180,7 @@ export default function AdminProdcutsScreen() {
                         </Link>
                         &nbsp;
                         <button
-                          onClick={() => deleteHandler(product._id)}
+                          onClick={() => deleteHandler(product)}
                           className="default-button"
                           type="button"
                         >
