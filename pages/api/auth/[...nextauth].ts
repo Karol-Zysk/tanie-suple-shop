@@ -6,7 +6,7 @@ import db from "../../../utils/db";
 
 export default NextAuth({
   session: {
-    strategy: "database",
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
