@@ -17,7 +17,7 @@ declare module "next-auth" {
     isAdmin: boolean;
   }
 
-  interface Session {
+  export interface Session {
     user: User;
   }
 }
