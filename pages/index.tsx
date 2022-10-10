@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from 'react'
+import React from "react";
 import { NextPage } from "next";
 import { SetStateAction, useContext, useState } from "react";
 import { toast } from "react-toastify";
@@ -94,11 +94,11 @@ const Home: NextPage<Iproducts> = ({ products }) => {
 
   return (
     <Layout title="Strona Główna">
-      <div className="flex w-full gap-3 ">
-        <div className="flex-col content-center w-1/4 p-3 text-center border-2 rounded-lg">
-          <h1 className="mb-3 text-xl font-bold">Sortuj</h1>
+      <div className="flex w-full gap-3 mt-4 ">
+        <div className="flex-col content-center w-1/4 p-3 text-center bg-gray-200 border-2 rounded-lg h-min">
+          <h1 className="mb-3 text-3xl font-semibold text-slate-800">Sortuj</h1>
 
-          <div className="flex-col pt-3 pl-1 bg-white border-2 ">
+          <div className="flex-col pt-3 pl-1 bg-white border-2 rounded-xl">
             <div>
               <span
                 onClick={() => setSortBy(true)}
@@ -187,7 +187,7 @@ const Home: NextPage<Iproducts> = ({ products }) => {
               {categoryArray.map((category) => {
                 return (
                   <React.Fragment key={category}>
-                    <div >
+                    <div>
                       <button
                         value={category}
                         className={`transition-all mr-1  my-1 selected-button  ${
@@ -207,7 +207,7 @@ const Home: NextPage<Iproducts> = ({ products }) => {
           </div>
         </div>
         <div className="flex flex-col items-center content-center w-full ">
-          <div className="grid content-around grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {p.map((product) => {
               return (
                 <ProductItem

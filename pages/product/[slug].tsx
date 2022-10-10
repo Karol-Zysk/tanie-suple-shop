@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
+import StarRatings from "react-star-ratings";
 import Layout from "../../components/Layout";
 import Product from "../../models/Product";
 import { ProductType } from "../../types";
@@ -36,50 +37,75 @@ export default function ProductScreen(props: { product: ProductType }) {
   return (
     <Layout title={product.name}>
       <div className="py-2">
-        <Link href="/">wróć do strony głównej </Link>
+        <Link href="/">Powrót </Link>
       </div>
-      <div className="grid md:grid-cols-4 md:gap-3">
-        <div className="md:col-span-2">
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={500}
-            height={500}
-            layout="responsive"
-          ></Image>
-        </div>
-        <div>
-          <ul>
-            <li>
-              <h1 className="text-lg">{product.name}</h1>
-            </li>
-            <li>Kategoria: {product.category}</li>
-            <li>Producent: {product.brand}</li>
-            <li>
-              {product.rating} of {product.numReviews} reviews
-            </li>
-            <li>Opis: {product.description}</li>
-          </ul>
-          <div className="mt-4"></div>
-        </div>
-        <div>
-          <div className="p-5 card">
-            <div className="flex justify-between mb-2">
-              <div>Cena</div>
-              <div>{product.price}zł</div>
+      <div className="flex justify-center w-full">
+        <div className="flex content-between justify-between w-9/12 ">
+          <div className="w-8/12 p-8 pt-20 border-4 bg-slate-800 text-slate-100">
+            <ul>
+              <li>
+                <h1 className="mb-8 text-4xl font-semibold text-blue-500">
+                  {product.name}
+                </h1>
+              </li>
+              <li className="mb-2 text-lg font-normal">
+                <b>Kategoria: </b>
+                {product.category}
+              </li>
+              <li className="mb-2 text-lg font-normal">
+                <b>Producent: </b>
+                {product.brand}
+              </li>
+              <li className="flex content-center h-8 mb-2 text-lg font-normal">
+                {"  "}
+                <div className="flex items-center content-center h-full">
+                  <StarRatings
+                    rating={product.rating}
+                    starDimension="20px"
+                    starSpacing="0px"
+                    starRatedColor="gold"
+                    ignoreInlineStyles={false}
+                  />
+                  <p className="block mt-1 ml-2">
+                    ze {product.numReviews} ocen
+                  </p>
+                </div>
+              </li>
+              <li className="mb-2 text-lg font-normal">
+                <b>Opis: </b>
+                {product.description}
+              </li>
+            </ul>
+            <div className="mt-4"></div>
+          </div>
+          <div className="w-4/12 p-10 pt-6 border-4 bg-slate-800">
+            <div className="mb-4 md:col-span-2">
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={500}
+                height={500}
+                layout="responsive"
+              ></Image>
             </div>
-            <div className="flex justify-between mb-2">
-              <div>Status</div>
-              <div>
-                {product.countInStock > 0 ? "W magazynie" : "Niedostępny"}
+            <div className="p-5 card">
+              <div className="flex justify-between mb-2 text-white">
+                <div>Cena</div>
+                <div>{product.price}zł</div>
               </div>
+              <div className="flex justify-between mb-2 text-white">
+                <div>Status</div>
+                <div>
+                  {product.countInStock > 0 ? "W magazynie" : "Niedostępny"}
+                </div>
+              </div>
+              <button
+                className="w-full primary-button"
+                onClick={addToCartHandler}
+              >
+                Dodaj do Koszyka
+              </button>
             </div>
-            <button
-              className="w-full primary-button"
-              onClick={addToCartHandler}
-            >
-              Dodaj do Koszyka
-            </button>
           </div>
         </div>
       </div>

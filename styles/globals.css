@@ -4,18 +4,27 @@
 
 html,
 body {
-  padding: 0;
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  body {
+    min-width: 100vw;
+    position: absolute;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
   @apply text-blue-600 hover:text-blue-800;
-}
-* {
-  box-sizing: border-box;
 }
 
 .dropdown-link {
@@ -23,11 +32,11 @@ a {
 }
 
 .card {
-  @apply block mb-5 border border-gray-200 rounded-lg shadow-md;
+  @apply flex flex-col mb-5 border border-gray-200 rounded-lg shadow-md place-content-between;
 }
 
 .primary-button {
-  @apply px-4 py-2 shadow outline-none cursor-pointer rounded-xl bg-amber-300 hover:bg-amber-400 active:bg-amber-500;
+  @apply px-4 py-2 shadow outline-none cursor-pointer rounded-xl bg-amber-300 hover:bg-amber-400 hover:shadow-lg active:bg-amber-500;
 }
 .selected-button {
   @apply px-3 py-1 text-sm shadow outline-none cursor-pointer rounded-xl hover:bg-amber-400 active:bg-amber-500;
