@@ -9,6 +9,7 @@ import Product from "../../models/Product";
 import { ProductType } from "../../types";
 import db from "../../utils/db";
 import { Store } from "../../utils/Store";
+import { TiArrowBackOutline } from "react-icons/ti";
 
 export default function ProductScreen(props: { product: ProductType }) {
   const { product } = props;
@@ -36,8 +37,10 @@ export default function ProductScreen(props: { product: ProductType }) {
 
   return (
     <Layout title={product.name}>
-      <div className="py-2">
-        <Link href="/">Powrót </Link>
+      <div className="flex items-center pt-5 pl-5 text-xl font-semibold text-blue-700 h-min">
+        <Link href="/">
+          <TiArrowBackOutline className="text-5xl text-blue-700 cursor-pointer " />
+        </Link>
       </div>
       <div className="flex justify-center w-full">
         <div className="flex content-between justify-between w-9/12 ">
@@ -66,9 +69,7 @@ export default function ProductScreen(props: { product: ProductType }) {
                     starRatedColor="gold"
                     ignoreInlineStyles={false}
                   />
-                  <p className="block mt-1 ml-2">
-                    ze {product.numReviews} ocen
-                  </p>
+                  <p className="block mt-1 ml-2">z {product.numReviews} ocen</p>
                 </div>
               </li>
               <li className="mb-2 text-lg font-normal">

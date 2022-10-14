@@ -95,7 +95,7 @@ const Home: NextPage<Iproducts> = ({ products }) => {
   return (
     <Layout title="Strona Główna">
       <div className="flex w-full gap-3 mt-4 ">
-        <div className="flex-col content-center w-1/4 p-3 text-center bg-gray-200 border-2 rounded-lg h-min">
+        <div className="flex-col content-center w-1/4 p-3 text-center bg-gray-200 border-2 rounded-lg xs:w-1/2 xss:absolute xs:relative h-min">
           <h1 className="mb-3 text-3xl font-semibold text-slate-800">Sortuj</h1>
 
           <div className="flex-col pt-3 pl-1 bg-white border-2 rounded-xl">
