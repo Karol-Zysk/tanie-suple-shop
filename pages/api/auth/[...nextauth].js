@@ -35,10 +35,7 @@ export default NextAuth({
           email: credentials?.email,
         });
         await db.disconnect();
-        if (
-          user &&
-          bcryptjs.compareSync(credentials!.password, user.password)
-        ) {
+        if (user && bcryptjs.compareSync(credentials.password, user.password)) {
           return {
             _id: user._id,
             name: user.name,
