@@ -27,7 +27,6 @@ function CartScreen() {
 
   return (
     <Layout title="Shopping Cart">
-      <h1 className="mb-4 text-xl">Koszyk</h1>
       {cartItems.length === 0 ? (
         <div>
           Koszyk jest pusty <Link href="/">Kontynuuj Zakupy</Link>
@@ -36,7 +35,7 @@ function CartScreen() {
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
             <table className="min-w-full ">
-              <thead className="border-b">
+              <thead className="">
                 <tr>
                   <th className="p-5 text-left">Produkt</th>
                   <th className="p-5 text-right">Ilość</th>
@@ -50,7 +49,7 @@ function CartScreen() {
                     <tr key={item.slug} className="border-b">
                       <td>
                         <Link href={`/product/${item.slug}`}>
-                          <a className="flex items-center">
+                          <a className="flex items-center text-sm">
                             <Image
                               src={item.image}
                               alt={item.name}

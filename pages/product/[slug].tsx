@@ -37,25 +37,25 @@ export default function ProductScreen(props: { product: ProductType }) {
 
   return (
     <Layout title={product.name}>
-      <div className="flex items-center pt-5 pl-5 text-xl font-semibold text-blue-700 h-min">
+      <div className="items-center hidden pt-5 pl-5 text-xl font-semibold text-blue-700 lg:flex h-min">
         <Link href="/">
           <TiArrowBackOutline className="text-5xl text-blue-700 cursor-pointer " />
         </Link>
       </div>
-      <div className="flex justify-center w-full">
-        <div className="flex content-between justify-between w-9/12 ">
-          <div className="w-8/12 p-8 pt-20 border-4 bg-slate-800 text-slate-100">
+      <div className="flex w-full lg:justify-center ">
+        <div className="flex flex-col items-center content-between justify-between w-full lg:items-stretch lg:w-9/12 lg:flex-row ">
+          <div className="p-3 pt-20 border-4 lg:p-8 lg:w-8/12 bg-slate-800 text-slate-100">
             <ul>
               <li>
-                <h1 className="mb-8 text-4xl font-semibold text-blue-500">
+                <h1 className="mb-8 text-2xl font-semibold text-blue-500 lg:text-4xl">
                   {product.name}
                 </h1>
               </li>
-              <li className="mb-2 text-lg font-normal">
+              <li className="mb-2 font-normal text-md lg:text-lg">
                 <b>Kategoria: </b>
                 {product.category}
               </li>
-              <li className="mb-2 text-lg font-normal">
+              <li className="mb-2 font-normal text-md lg:text-lg">
                 <b>Producent: </b>
                 {product.brand}
               </li>
@@ -72,14 +72,14 @@ export default function ProductScreen(props: { product: ProductType }) {
                   <p className="block mt-1 ml-2">z {product.numReviews} ocen</p>
                 </div>
               </li>
-              <li className="mb-2 text-lg font-normal">
+              <li className="mb-2 font-normal text-md lg:text-lg">
                 <b>Opis: </b>
                 {product.description}
               </li>
             </ul>
             <div className="mt-4"></div>
           </div>
-          <div className="w-4/12 p-10 pt-6 border-4 bg-slate-800">
+          <div className="w-full p-3 pt-6 border-4 lg:p-8 lg:w-4/12 bg-slate-800 text-slate-100">
             <div className="mb-4 md:col-span-2">
               <Image
                 src={product.image}

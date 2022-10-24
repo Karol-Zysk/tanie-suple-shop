@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.0",
+    "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^1.0.6",
     "@paypal/react-paypal-js": "^7.8.1",
     "@types/axios": "^0.14.0",
@@ -19,7 +19,6 @@
     "@types/mongoose": "^5.11.97",
     "@types/next-auth": "^3.15.0",
     "@types/react-chartjs-2": "^2.5.7",
-    "@types/react-icons": "^3.0.0",
     "@types/react-star-ratings": "^2.3.0",
     "@types/react-toastify": "^4.1.0",
     "autoprefixer": "^10.4.8",
@@ -38,7 +37,7 @@
     "react-chartjs-2": "^4.3.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.34.2",
-    "react-icons": "^4.4.0",
+    "react-icons": "^4.6.0",
     "react-star-ratings": "^2.3.0",
     "react-toastify": "^9.0.8",
     "typescript-cookie": "^1.0.4"
@@ -47,6 +46,7 @@
     "@types/node": "18.7.15",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
+    "@types/react-icons": "^3.0.0",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "postcss-preset-env": "^7.8.0",

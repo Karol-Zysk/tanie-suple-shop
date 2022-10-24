@@ -7,10 +7,9 @@ import Layout from "../components/Layout";
 import ProductItem from "../components/ProductItem";
 import Product from "../models/Product";
 import { DataBaseProductType } from "../types";
-import { brandsArray, categoryArray } from "../utils/data";
 import db from "../utils/db";
 import { Store } from "../utils/Store";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import Sidebar from "../components/Sidebar";
 
 interface Iproducts {
   products: DataBaseProductType[];
@@ -32,6 +31,14 @@ const Home: NextPage<Iproducts> = ({ products }) => {
   //sort by rating
   const [sortByMinRating, setSortByMinRating] = useState(false);
   const [sortByMaxRating, setSortByMaxRating] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  const showSidebarHandler = () => {
+    setHidden(!hidden);
+  };
+  const hideSidebarHandler = () => {
+    setHidden(false);
+  };
 
   const handleSortByMaxPrice = () => {
     setSortByMinPrice(false);
@@ -94,120 +101,30 @@ const Home: NextPage<Iproducts> = ({ products }) => {
 
   return (
     <Layout title="Strona Główna">
-      <div className="flex w-full gap-3 mt-4 ">
-        <div className="flex-col content-center p-3 text-center bg-gray-200 border-2 rounded-lg lg:w-1/4 xss:absolute xs:relative h-min">
-          <h1 className="mb-3 text-3xl font-semibold text-slate-800">Sortuj</h1>
-
-          <div className="flex-col pt-3 pl-1 bg-white border-2 rounded-xl">
-            <div>
-              <span
-                onClick={() => setSortBy(true)}
-                className={`transition-all mr-1 mt-3 text-xl cursor-pointer   my-1   ${
-                  sortBy ? "font-bold" : ""
-                }`}
-              >
-                Cena
-              </span>{" "}
-              /{" "}
-              <span
-                onClick={() => setSortBy(false)}
-                className={`transition-all mr-1 mt-3 text-xl cursor-pointer   my-1   ${
-                  sortBy ? "" : "font-bold"
-                }`}
-              >
-                Ocena
-              </span>
-            </div>
-            <>
-              {sortBy ? (
-                <div className="flex justify-around my-3 ">
-                  <button
-                    onClick={handleSortByMaxPrice}
-                    className={`transition-all mr-1   my-1 selected-button-price  ${
-                      sortByMaxPrice ? "bg-amber-500" : "bg-amber-300"
-                    }`}
-                  >
-                    Rosnąco <FaArrowUp className="ml-1" />
-                  </button>
-                  <button
-                    onClick={handleSortByMinPrice}
-                    className={`transition-all mr-1  my-1 selected-button-price  ${
-                      sortByMinPrice ? "bg-amber-500" : "bg-amber-300"
-                    }`}
-                  >
-                    Malejąco
-                    <FaArrowDown className="ml-1" />
-                  </button>
-                </div>
-              ) : (
-                <div className="flex justify-around my-3 ">
-                  <button
-                    onClick={handleSortByMaxRating}
-                    className={`transition-all mr-1   my-1 selected-button-price  ${
-                      sortByMaxRating ? "bg-amber-500" : "bg-amber-300"
-                    }`}
-                  >
-                    Rosnąco <FaArrowUp className="ml-1" />
-                  </button>
-                  <button
-                    onClick={handleSortByMinRating}
-                    className={`transition-all mr-1  my-1 selected-button-price  ${
-                      sortByMinRating ? "bg-amber-500" : "bg-amber-300"
-                    }`}
-                  >
-                    Malejąco
-                    <FaArrowDown className="ml-1" />
-                  </button>
-                </div>
-              )}
-            </>
-            <h1 className="mt-3 text-xl font-semibold">Firma</h1>
-
-            <div className="flex flex-wrap my-3 ">
-              {brandsArray.map((brandName) => {
-                return (
-                  <div key={brandName}>
-                    <button
-                      value={brandName}
-                      className={`transition-all mr-1  my-1 selected-button  ${
-                        brandName === selectedBrand
-                          ? "bg-amber-500"
-                          : "bg-amber-300"
-                      }`}
-                      onClick={brandHandler}
-                    >
-                      {brandName}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-            <h1 className="text-xl font-semibold">Kategorie</h1>
-            <div className="flex flex-wrap my-3 ">
-              {categoryArray.map((category) => {
-                return (
-                  <React.Fragment key={category}>
-                    <div>
-                      <button
-                        value={category}
-                        className={`transition-all mr-1  my-1 selected-button  ${
-                          category === selectedCategory
-                            ? "bg-amber-500"
-                            : "bg-amber-300"
-                        }`}
-                        onClick={categoryHandler}
-                      >
-                        {category}
-                      </button>
-                    </div>
-                  </React.Fragment>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col items-center content-center w-full ">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="flex w-full gap-3 mt-4">
+        <Sidebar
+          setSortBy={setSortBy}
+          sortBy={sortBy}
+          handleSortByMaxPrice={handleSortByMaxPrice}
+          handleSortByMinPrice={handleSortByMinPrice}
+          handleSortByMinRating={handleSortByMinRating}
+          handleSortByMaxRating={handleSortByMaxRating}
+          sortByMaxPrice={sortByMaxPrice}
+          sortByMinPrice={sortByMinPrice}
+          sortByMaxRating={sortByMaxRating}
+          sortByMinRating={sortByMinRating}
+          categoryHandler={categoryHandler}
+          brandHandler={brandHandler}
+          selectedBrand={selectedBrand}
+          selectedCategory={selectedCategory}
+          showSidebarHandler={showSidebarHandler}
+          hidden={hidden}
+        />
+        <div
+          onClick={hideSidebarHandler}
+          className="flex flex-col items-center content-center w-auto "
+        >
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:grid-cols-3">
             {p.map((product) => {
               return (
                 <ProductItem

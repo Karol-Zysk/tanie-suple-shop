@@ -27,13 +27,13 @@ interface LayoutProps {
 
 const Layout = ({ children, title }: LayoutProps) => {
   const { state, dispatch } = useContext(Store);
-  const [state2, setState] = useState(true);
+  const [isSession, setIsSession] = useState(true);
   const { cart } = state;
   const { status, data: session } = useSession();
 
   useEffect(() => {
-    if (session?.user?.isAdmin) setState(true);
-    else setState(false);
+    if (session?.user?.isAdmin) setIsSession(true);
+    else setIsSession(false);
   }, [session]);
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -63,16 +63,18 @@ const Layout = ({ children, title }: LayoutProps) => {
       </Head>
       <div className="flex flex-col justify-between min-h-screen bg-slate-400 ">
         <header>
-          <nav className="flex items-center justify-between h-24 px-5 bg-gray-800 border-2 shadow-md">
+          <nav className="flex items-center justify-between h-24 px-2 bg-gray-800 border-2 shadow-md xs:px-5">
             <Link href="/">
-              <a className="text-5xl font-bold">TanieSuple</a>
+              <a className="text-xl font-bold sm:text-3xl md:text-5xl">
+                TanieSuple
+              </a>
             </Link>
             <div className="flex items-center">
-              <div className="flex items-center p-2 border-2">
+              <div className="flex items-center p-1 border-2 md:p-2">
                 {" "}
-                <AiOutlineShoppingCart className="text-2xl text-blue-500" />
+                <AiOutlineShoppingCart className="text-blue-500 text-md md:text-2xl" />
                 <Link href="/cart">
-                  <a className="p-2">
+                  <a className="p-1 text-xs md:text-xl md:p-2">
                     Koszyk
                     {cartItemsCount > 0 && (
                       <span className="px-2 py-1 ml-1 text-xs font-bold text-white bg-red-600 rounded-full">
@@ -86,9 +88,9 @@ const Layout = ({ children, title }: LayoutProps) => {
                 "Loading"
               ) : session?.user ? (
                 <>
-                  <div className="flex items-center p-2 ml-1 border-2">
+                  <div className="flex items-center p-1 ml-1 border-2 md:p-2">
                     <Menu as="div" className="relative z-20 inline-block ">
-                      <Menu.Button className="flex items-center p-2 text-blue-600">
+                      <Menu.Button className="flex items-center p-1 text-xs text-blue-600 md:text-xl md:p-2">
                         {session.user.name}{" "}
                         <AiOutlineUser className="text-2xl text-blue-500 " />
                       </Menu.Button>
@@ -109,7 +111,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                             Historia Zamówień
                           </DropdownLink>
                         </Menu.Item>
-                        {state2 && (
+                        {isSession && (
                           <Menu.Item>
                             <DropdownLink
                               className="dropdown-link"
@@ -133,10 +135,10 @@ const Layout = ({ children, title }: LayoutProps) => {
                   </div>
                 </>
               ) : (
-                <div className="flex items-center p-2 ml-1 border-2">
-                  <AiOutlineUser className="text-2xl text-blue-500" />
+                <div className="relative flex items-center p-1 ml-1 border-2 md:p-2">
+                  <AiOutlineUser className="text-lg text-blue-500 md:text-2xl" />
                   <Link href="/login">
-                    <a className="p-2">Zaloguj się</a>
+                    <a className="p-1 text-xs md:text-xl md:p-2">Zaloguj się</a>
                   </Link>
                 </div>
               )}
@@ -144,8 +146,8 @@ const Layout = ({ children, title }: LayoutProps) => {
           </nav>
         </header>
         <main className="container flex px-4 m-auto mt-4">{children}</main>
-        <footer className="flex items-center justify-center h-10 shadow-inner">
-          footer
+        <footer className="flex items-center justify-end p-4 mt-8 text-white bg-gray-800 border-t-4 shadow-inner h-14">
+          <p className="text-xl font-semibold">Tanie-Suple.com</p>
         </footer>
       </div>
     </>
