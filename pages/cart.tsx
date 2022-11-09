@@ -46,23 +46,24 @@ function CartScreen() {
               <tbody>
                 {cartItems.map((item: ProductType) => {
                   return (
-                    <tr key={item.slug} className="border-b">
-                      <td>
+                    <tr key={item.slug} className="md:border-b">
+                      <td className="flex ">
                         <Link href={`/product/${item.slug}`}>
-                          <a className="flex items-center text-sm">
+                          <a className="flex items-center text-xs sm:text-base">
                             <Image
                               src={item.image}
                               alt={item.name}
                               width={50}
                               height={50}
                             ></Image>
-                            &nbsp;
-                            {item.name}
+
+                            {item.name.slice(0, 25)}
                           </a>
                         </Link>
                       </td>
                       <td className="p-5 text-right">
                         <select
+                          className="p-0"
                           value={item.quantity}
                           onChange={(e) =>
                             updateCartHandler(

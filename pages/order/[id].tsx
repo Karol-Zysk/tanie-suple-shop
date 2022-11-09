@@ -1,4 +1,8 @@
-import { PayPalButtons, SCRIPT_LOADING_STATE, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import {
+  PayPalButtons,
+  SCRIPT_LOADING_STATE,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -116,10 +120,13 @@ function OrderScreen() {
           type: "resetOptions",
           value: {
             "client-id": clientId,
-            currency: "USD",
+            currency: "PLN",
           },
         });
-        paypalDispatch({ type: "setLoadingStatus", value: SCRIPT_LOADING_STATE.PENDING });
+        paypalDispatch({
+          type: "setLoadingStatus",
+          value: SCRIPT_LOADING_STATE.PENDING,
+        });
       };
       loadPaypalScript();
     }
@@ -199,140 +206,154 @@ function OrderScreen() {
 
   return (
     <Layout title={`Zamówienie id ${orderId}`}>
-      <h1 className="mb-4 text-xl">{`zamówienie id ${orderId}`}</h1>
-      {loading ? (
-        <div>Chwileczkę...</div>
-      ) : error ? (
-        <div className="alert-error">{error}</div>
-      ) : (
-        <div className="grid md:grid-cols-4 md:gap-5">
-          <div className="overflow-x-auto md:col-span-3">
-            <div className="p-5 card">
-              <h2 className="mb-2 text-lg">Adres dostawy</h2>
-              <div>
-                {shippingAddress.fullName}, {shippingAddress.address},{" "}
-                {shippingAddress.city}, {shippingAddress.postalCode},{" "}
-                {shippingAddress.country}
-              </div>
-              {isDelivered ? (
-                <div className="alert-success">
-                  Dostarczono do {deliveredAt}
+      <div className="flex-col w-full p-2 md:p-0">
+        <h1 className="mb-4 text-xl">{`zamówienie id ${orderId}`}</h1>
+        {loading ? (
+          <div>Chwileczkę...</div>
+        ) : error ? (
+          <div className="alert-error">{error}</div>
+        ) : (
+          <div className="grid md:grid-cols-4 md:gap-5">
+            <div className="overflow-x-auto md:col-span-3">
+              <div className="p-2 md:p-5 card bg-slate-200">
+                <h2 className="w-full mb-2 font-semibold text-center md:text-lg text:base ">
+                  Adres dostawy
+                </h2>
+                <div>
+                  {shippingAddress.fullName}, {shippingAddress.address},{" "}
+                  {shippingAddress.city}, {shippingAddress.postalCode},{" "}
+                  {shippingAddress.country}
                 </div>
-              ) : (
-                <div className="alert-error">Nie dostarczono</div>
-              )}
-            </div>
+                {isDelivered ? (
+                  <div className="alert-success">
+                    Dostarczono do {deliveredAt}
+                  </div>
+                ) : (
+                  <div className="alert-error">Nie dostarczono</div>
+                )}
+              </div>
 
-            <div className="p-5 card">
-              <h2 className="mb-2 text-lg">Metoda płatności</h2>
-              <div>{paymentMethod}</div>
-              {isPaid ? (
-                <div className="alert-success">Opłacono {paidAt}</div>
-              ) : (
-                <div className="alert-error">Nie opłacono</div>
-              )}
-            </div>
+              <div className="p-2 md:p-5 card">
+                <h2 className="w-full mb-2 font-semibold text-center md:text-lg text:base ">
+                  Metoda płatności
+                </h2>
+                <div>{paymentMethod}</div>
+                {isPaid ? (
+                  <div className="alert-success">Opłacono {paidAt}</div>
+                ) : (
+                  <div className="alert-error">Nie opłacono</div>
+                )}
+              </div>
 
-            <div className="p-5 overflow-x-auto card">
-              <h2 className="mb-2 text-lg">Zamawiam</h2>
-              <table className="min-w-full">
-                <thead className="border-b">
-                  <tr>
-                    <th className="px-5 text-left">Produkt</th>
-                    <th className="p-5 text-right ">Ilość</th>
-                    <th className="p-5 text-right ">Cena</th>
-                    <th className="p-5 text-right">Suma</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderItems.map((item: DataBaseProductType) => (
-                    <tr key={item.slug} className="border-b">
-                      <td>
-                        <Link href={`/product/${item.slug}`}>
-                          <a className="flex items-center">
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              width={50}
-                              height={50}
-                            ></Image>
-                            &nbsp;
-                            {item.name}
-                          </a>
-                        </Link>
-                      </td>
-                      <td className="p-5 text-right ">{item.quantity}</td>
-                      <td className="p-5 text-right">${item.price}</td>
-                      <td className="p-5 text-right">
-                        {item.quantity && item.quantity * item.price}zł
-                      </td>
+              <div className="p-2 overflow-x-auto md:p-5 card">
+                <h2 className="w-full mb-2 font-semibold text-center md:text-lg text:base ">
+                  Zamawiam
+                </h2>
+                <table className="min-w-full">
+                  <thead className="border-b">
+                    <tr>
+                      <th className="px-5 text-left">Produkt</th>
+                      <th className="p-2 text-right md:p-5">Ilość</th>
+                      <th className="p-2 text-right md:p-5">Cena</th>
+                      <th className="p-2 text-right md:p-5">Suma</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {orderItems.map((item: DataBaseProductType) => (
+                      <tr key={item.slug} className="border-b">
+                        <td>
+                          <Link href={`/product/${item.slug}`}>
+                            <a className="flex items-center">
+                              <Image
+                                src={item.image}
+                                alt={item.name}
+                                width={50}
+                                height={50}
+                              ></Image>
+                              &nbsp;
+                              {item.name}
+                            </a>
+                          </Link>
+                        </td>
+                        <td className="p-2 text-right md:p-5">
+                          {item.quantity}
+                        </td>
+                        <td className="p-2 text-right md:p-5">${item.price}</td>
+                        <td className="p-2 text-right md:p-5">
+                          {item.quantity && item.quantity * item.price}zł
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="p-5 card">
-              <h2 className="mb-2 text-lg">Podsumowanie</h2>
-              <ul>
-                <li>
-                  <div className="flex justify-between mb-2">
-                    <div>Produkty</div>
-                    <div>${itemsPrice}</div>
-                  </div>
-                </li>{" "}
-                <li>
-                  <div className="flex justify-between mb-2">
-                    <div>Vat</div>
-                    <div>{taxPrice}zł</div>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex justify-between mb-2">
-                    <div>Dostawa</div>
-                    <div>{shippingPrice}zł</div>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex justify-between mb-2">
-                    <div>Suma</div>
-                    <div>{totalPrice}zł</div>
-                  </div>
-                </li>
-                {!isPaid && (
+            <div>
+              <div className="p-2 md:p-5 card">
+                <h2 className="w-full mb-2 font-semibold text-center md:text-lg text:base ">
+                  Podsumowanie
+                </h2>
+                <ul>
                   <li>
-                    {isPending ? (
-                      <div>Loading...</div>
-                    ) : (
-                      <div className="w-full">
-                        <PayPalButtons
-                          key={"name"}
-                          createOrder={createOrder} //@ts-ignore
-                          onApprove={onApprove}
-                          onError={onError}
-                        ></PayPalButtons>
-                      </div>
+                    <div className="flex justify-between mb-2">
+                      <div>Produkty</div>
+                      <div>${itemsPrice}</div>
+                    </div>
+                  </li>{" "}
+                  <li>
+                    <div className="flex justify-between mb-2">
+                      <div>Vat</div>
+                      <div>{taxPrice}zł</div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="flex justify-between mb-2">
+                      <div>Dostawa</div>
+                      <div>{shippingPrice}zł</div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="flex justify-between mb-2">
+                      <div>Suma</div>
+                      <div>{totalPrice}zł</div>
+                    </div>
+                  </li>
+                  {!isPaid && (
+                    <li>
+                      {isPending ? (
+                        <div>Loading...</div>
+                      ) : (
+                        <div className="w-full">
+                          <PayPalButtons
+                            key={"name"}
+                            createOrder={createOrder} //@ts-ignore
+                            onApprove={onApprove}
+                            onError={onError}
+                          ></PayPalButtons>
+                        </div>
+                      )}
+                      {loadingPay && <div>Chwileczkę...</div>}
+                    </li>
+                  )}
+                  {session?.user?.isAdmin &&
+                    order.isPaid &&
+                    !order.isDelivered && (
+                      <li>
+                        {loadingDeliver && <div>Loading...</div>}
+                        <button
+                          className="w-full primary-button"
+                          onClick={deliverOrderHandler}
+                        >
+                          Złóż zamówieni
+                        </button>
+                      </li>
                     )}
-                    {loadingPay && <div>Chwileczkę...</div>}
-                  </li>
-                )}
-                {session?.user?.isAdmin && order.isPaid && !order.isDelivered && (
-                  <li>
-                    {loadingDeliver && <div>Loading...</div>}
-                    <button
-                      className="w-full primary-button"
-                      onClick={deliverOrderHandler}
-                    >
-                      Złóż zamówieni
-                    </button>
-                  </li>
-                )}
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </Layout>
   );
 }

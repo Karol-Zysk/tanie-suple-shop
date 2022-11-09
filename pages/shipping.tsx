@@ -28,8 +28,6 @@ export default function ShippingScreen() {
     setValue("country", shippingAddress?.country);
   }, [setValue, shippingAddress]);
 
-
-
   const submitHandler = ({
     fullName,
     address,
@@ -60,83 +58,91 @@ export default function ShippingScreen() {
 
   return (
     <Layout title="Shipping Address">
-      <CheckoutWizard activeStep={1} />
-      <form
-        className="max-w-screen-md mx-auto"
-        onSubmit={handleSubmit(submitHandler)}
-      >
-        <h1 className="mb-4 text-xl">Adres Wysyłki</h1>
-        <div className="mb-4">
-          <label htmlFor="fullName">Imię i Nazwisko</label>
-          <input
-            className="w-full"
-            id="fullName"
-            autoFocus
-            {...register("fullName", {
-              required: "Please enter full name",
-            })}
-          />
-          {errors.fullName ? (
-            <div className="text-red-500">Popraw pole: mię i nawisko</div>
-          ) : null}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="address">Addres</label>
-          <input
-            className="w-full"
-            id="address"
-            {...register("address", {
-              required: "Please enter address",
-              minLength: { value: 3, message: "Address is more than 2 chars" },
-            })}
-          />
-          {errors.address && (
-            <div className="text-red-500">Popraw pole: adres</div>
-          )}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="city">Miasto</label>
-          <input
-            className="w-full"
-            id="city"
-            {...register("city", {
-              required: "Please enter city",
-            })}
-          />
-          {errors.city && (
-            <div className="text-red-500 ">Popraw pole: miasto</div>
-          )}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="postalCode">Kod Pocztowy</label>
-          <input
-            className="w-full"
-            id="postalCode"
-            {...register("postalCode", {
-              required: "Please enter postal code",
-            })}
-          />
-          {errors.postalCode && (
-            <div className="text-red-500 ">Popraw pole: kod-pocztowy</div>
-          )}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="country">Kraj</label>
-          <input
-            className="w-full"
-            id="country"
-            {...register("country", {
-              required: "Please enter country",
-            })}
-          />
-          {errors.country && (
-            <div className="text-red-500 ">Popraw pole: kraj</div>
-          )}
-        </div>
-        <div className="flex justify-between mb-4">
-          <button className="primary-button">Dalej</button>
-        </div>
-      </form>
+      <div className="flex-col w-full p-2 md:p-0">
+        <CheckoutWizard activeStep={1} />
+        <form
+          className="max-w-screen-md mx-auto"
+          onSubmit={handleSubmit(submitHandler)}
+        >
+          <h1 className="mb-4 text-xl">Adres Wysyłki</h1>
+          <div className="mb-4">
+            <label htmlFor="fullName">Imię i Nazwisko</label>
+            <input
+              type="text"
+              className="w-full"
+              id="fullName"
+              autoFocus
+              {...register("fullName", {
+                required: "Please enter full name",
+              })}
+            />
+            {errors.fullName ? (
+              <div className="text-red-500">Popraw pole: imię i nawisko</div>
+            ) : null}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="address">Addres</label>
+            <input
+              type="text"
+              className="w-full"
+              id="address"
+              {...register("address", {
+                required: "Please enter address",
+                minLength: {
+                  value: 3,
+                  message: "Address is more than 2 chars",
+                },
+              })}
+            />
+            {errors.address && (
+              <div className="text-red-500">Popraw pole: adres</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="city">Miasto</label>
+            <input
+              type="text"
+              className="w-full"
+              id="city"
+              {...register("city", {
+                required: "Please enter city",
+              })}
+            />
+            {errors.city && (
+              <div className="text-red-500 ">Popraw pole: miasto</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="postalCode">Kod Pocztowy</label>
+            <input
+              className="w-full"
+              id="postalCode"
+              {...register("postalCode", {
+                required: "Please enter postal code",
+              })}
+            />
+            {errors.postalCode && (
+              <div className="text-red-500 ">Popraw pole: kod-pocztowy</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="country">Kraj</label>
+            <input
+              className="w-full"
+              id="country"
+              {...register("country", {
+                required: "Please enter country",
+              })}
+            />
+            {errors.country && (
+              <div className="text-red-500 ">Popraw pole: kraj</div>
+            )}
+          </div>
+          <div className="flex justify-between mb-4">
+            <button className="primary-button">Dalej</button>
+          </div>
+        </form>
+      </div>
     </Layout>
   );
 }

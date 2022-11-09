@@ -32,7 +32,7 @@ a {
 }
 
 .card {
-  @apply flex flex-col mb-5 border border-gray-200 rounded-lg shadow-md place-content-between;
+  @apply flex flex-col mb-5 border border-gray-200 rounded-lg shadow-md bg-slate-200 place-content-between;
 }
 
 .primary-button {

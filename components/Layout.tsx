@@ -70,11 +70,11 @@ const Layout = ({ children, title }: LayoutProps) => {
               </a>
             </Link>
             <div className="flex items-center">
-              <div className="flex items-center p-1 border-2 md:p-2">
+              <div className="flex items-center p-1 border-2 rounded-lg md:p-2">
                 {" "}
-                <AiOutlineShoppingCart className="text-blue-500 text-md md:text-2xl" />
+                <AiOutlineShoppingCart className="text-blue-500 text-md md:text-xl" />
                 <Link href="/cart">
-                  <a className="p-1 text-xs md:text-xl md:p-2">
+                  <a className="p-1 text-xs md:text-lg md:p-2">
                     Koszyk
                     {cartItemsCount > 0 && (
                       <span className="px-2 py-1 ml-1 text-xs font-bold text-white bg-red-600 rounded-full">
@@ -88,11 +88,11 @@ const Layout = ({ children, title }: LayoutProps) => {
                 "Loading"
               ) : session?.user ? (
                 <>
-                  <div className="flex items-center p-1 ml-1 border-2 md:p-2">
+                  <div className="flex items-center p-1 ml-1 border-2 rounded-lg md:p-2">
                     <Menu as="div" className="relative z-20 inline-block ">
-                      <Menu.Button className="flex items-center p-1 text-xs text-blue-600 md:text-xl md:p-2">
+                      <Menu.Button className="flex items-center p-1 text-xs text-blue-600 md:text-lg md:p-2">
+                        <AiOutlineUser className="p-0 mr-1 text-blue-500 scale-150 " />
                         {session.user.name}{" "}
-                        <AiOutlineUser className="text-2xl text-blue-500 " />
                       </Menu.Button>
                       <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white shadow-lg ">
                         <Menu.Item>
@@ -135,10 +135,10 @@ const Layout = ({ children, title }: LayoutProps) => {
                   </div>
                 </>
               ) : (
-                <div className="relative flex items-center p-1 ml-1 border-2 md:p-2">
+                <div className="relative flex items-center p-1 ml-1 border-2 rounded-lg md:p-2">
                   <AiOutlineUser className="text-lg text-blue-500 md:text-2xl" />
                   <Link href="/login">
-                    <a className="p-1 text-xs md:text-xl md:p-2">Zaloguj się</a>
+                    <a className="p-1 text-xs md:text-lg md:p-2">Zaloguj się</a>
                   </Link>
                 </div>
               )}
