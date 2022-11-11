@@ -10,6 +10,7 @@ import { ProductType } from "../../types";
 import db from "../../utils/db";
 import { Store } from "../../utils/Store";
 import { TiArrowBackOutline } from "react-icons/ti";
+import { formula } from "../../utils/data";
 
 export default function ProductScreen(props: { product: ProductType }) {
   const { product } = props;
@@ -77,9 +78,10 @@ export default function ProductScreen(props: { product: ProductType }) {
                 {product.description}
               </li>
             </ul>
+            <p className="mt-8 text-base font-bold md:text-lg">{formula}</p>
             <div className="mt-4"></div>
           </div>
-          <div className="w-full p-3 pt-6 border-4 lg:p-8 lg:w-4/12 bg-slate-800 text-slate-100">
+          <div className="w-full p-3 pt-6 border-4 lg:p-8 lg:w-4/12 bg-slate-800 text-slate-900">
             <div className="mb-4 md:col-span-2">
               <Image
                 src={product.image}
@@ -90,18 +92,18 @@ export default function ProductScreen(props: { product: ProductType }) {
               ></Image>
             </div>
             <div className="p-5 card">
-              <div className="flex justify-between mb-2 text-white">
+              <div className="flex justify-between mb-2 text-slate-900">
                 <div>Cena</div>
                 <div>{product.price}zł</div>
               </div>
-              <div className="flex justify-between mb-2 text-white">
+              <div className="flex justify-between mb-2 text-slate-900">
                 <div>Status</div>
                 <div>
                   {product.countInStock > 0 ? "W magazynie" : "Niedostępny"}
                 </div>
               </div>
               <button
-                className="w-full primary-button"
+                className="w-full primary-button text-slate-900"
                 onClick={addToCartHandler}
               >
                 Dodaj do Koszyka

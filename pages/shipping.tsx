@@ -115,8 +115,13 @@ export default function ShippingScreen() {
           <div className="mb-4">
             <label htmlFor="postalCode">Kod Pocztowy</label>
             <input
-              className="w-full"
+              maxLength={5}
+              minLength={5}
               id="postalCode"
+              type="number"
+              inputMode="numeric"
+              pattern="^(?(^00000(|-0000))|(\d{5}(|-\d{4})))$"
+              className="w-full"
               {...register("postalCode", {
                 required: "Please enter postal code",
               })}
