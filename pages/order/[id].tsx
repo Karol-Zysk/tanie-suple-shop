@@ -215,7 +215,7 @@ function OrderScreen() {
         ) : (
           <div className="grid md:grid-cols-4 md:gap-5">
             <div className="overflow-x-auto md:col-span-3">
-              <div className="p-2 md:p-5 card bg-slate-200">
+              <div className="p-2 md:p-5 card bg-white">
                 <h2 className="w-full mb-2 font-semibold text-center md:text-lg text:base ">
                   Adres dostawy
                 </h2>

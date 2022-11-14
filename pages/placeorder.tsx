@@ -80,7 +80,7 @@ export default function PlaceOrderScreen() {
         ) : (
           <div className="grid md:grid-cols-4 md:gap-5">
             <div className="overflow-x-auto md:col-span-3">
-              <div className="p-2 bg-slate-200 md:p-4 card">
+              <div className="p-2 bg-white md:p-4 card">
                 <h2 className="mb-2 md:text-lg text-md ">Miejsce Wysyłki</h2>
                 <div>
                   {shippingAddress.fullName}, {shippingAddress.address},{" "}
@@ -91,14 +91,14 @@ export default function PlaceOrderScreen() {
                   <Link href="/shipping">Edytuj</Link>
                 </div>
               </div>
-              <div className="p-2 md:p-4 card bg-slate-200">
+              <div className="p-2 md:p-4 card bg-white">
                 <h2 className="mb-2 md:text-lg text-md ">Metody Płatności</h2>
                 <div>{paymentMethod}</div>
                 <div>
                   <Link href="/payment">Edytuj</Link>
                 </div>
               </div>
-              <div className="p-2 overflow-x-auto md:p-4 card bg-slate-200">
+              <div className="p-2 overflow-x-auto md:p-4 card bg-white">
                 <h2 className="mb-2 md:text-lg text-md ">Zamówienie</h2>
                 <table className="min-w-full">
                   <thead className="border-b">
@@ -146,7 +146,7 @@ export default function PlaceOrderScreen() {
               </div>
             </div>
             <div>
-              <div className="p-2 md:p-4 card bg-slate-200">
+              <div className="p-2 md:p-4 card bg-white">
                 <h2 className="mb-2 md:text-lg text-md ">
                   Podsumowanie Zamówienia
                 </h2>
