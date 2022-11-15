@@ -55,6 +55,8 @@ export default function ProfileScreen() {
           <label htmlFor="name">Imię</label>
           <input
             type="text"
+            minLength={3}
+            maxLength={12}
             className="w-full"
             id="name"
             autoFocus

@@ -59,7 +59,10 @@ export default function LoginScreen() {
           <label htmlFor="name">Imię</label>
           <input
             type="text"
+            minLength={3}
+            maxLength={12}
             className="w-full"
+            placeholder="Jan"
             id="name"
             autoFocus
             {...register("name", {
@@ -83,6 +86,7 @@ export default function LoginScreen() {
               },
             })}
             className="w-full"
+            placeholder="example@example.com"
             id="email"
           ></input>
           {errors.email && (
@@ -95,10 +99,14 @@ export default function LoginScreen() {
             type="password"
             {...register("password", {
               required: "Proszę wpisać hasło",
-              minLength: { value: 6, message: "hasło powinno mieć powyżej 5 znaków" },
+              minLength: {
+                value: 6,
+                message: "hasło powinno mieć powyżej 5 znaków",
+              },
             })}
             className="w-full"
             id="password"
+            placeholder="*********"
             autoFocus
           ></input>
           {errors.password && (
@@ -110,6 +118,7 @@ export default function LoginScreen() {
           <input
             className="w-full"
             type="password"
+            placeholder="*********"
             id="confirmPassword"
             {...register("confirmPassword", {
               required: "Proszę powtórzyć hasło",
@@ -136,7 +145,9 @@ export default function LoginScreen() {
         </div>
         <div className="mb-4 ">
           Nie masz konta ?
-          <Link href={`/register?redirect=${redirect || "/"}`}>Rejestracja</Link>
+          <Link href={`/register?redirect=${redirect || "/"}`}>
+            Rejestracja
+          </Link>
         </div>
       </form>
     </Layout>

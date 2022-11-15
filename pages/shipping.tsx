@@ -74,6 +74,8 @@ export default function ShippingScreen() {
               autoFocus
               {...register("fullName", {
                 required: "Please enter full name",
+                minLength: 8,
+                maxLength: 30,
               })}
             />
             {errors.fullName ? (
@@ -89,7 +91,7 @@ export default function ShippingScreen() {
               {...register("address", {
                 required: "Please enter address",
                 minLength: {
-                  value: 3,
+                  value: 6,
                   message: "Address is more than 2 chars",
                 },
               })}
@@ -106,6 +108,7 @@ export default function ShippingScreen() {
               id="city"
               {...register("city", {
                 required: "Please enter city",
+                minLength: 4,
               })}
             />
             {errors.city && (
@@ -115,19 +118,21 @@ export default function ShippingScreen() {
           <div className="mb-4">
             <label htmlFor="postalCode">Kod Pocztowy</label>
             <input
-              maxLength={5}
-              minLength={5}
               id="postalCode"
-              type="number"
-              inputMode="numeric"
-              pattern="^(?(^00000(|-0000))|(\d{5}(|-\d{4})))$"
+              type="text"
               className="w-full"
               {...register("postalCode", {
                 required: "Please enter postal code",
+                pattern: {
+                  value: /^\d{2}[-]{0,1}\d{3}$/i,
+                  message: "Proszę wpisać prawidłowy kod pocztowy",
+                },
               })}
             />
             {errors.postalCode && (
-              <div className="text-red-500 ">Popraw pole: kod-pocztowy</div>
+              <div className="text-red-500 ">
+                Popraw pole: kod-pocztowy. Poprawny format: 12-345
+              </div>
             )}
           </div>
           <div className="mb-4">
